@@ -1,0 +1,75 @@
+name: 🧠 Cerebral Triad Issue
+description: Issues related to cerebral triad services (thought, processing-director, processing, output)
+title: "[CEREBRAL] "
+labels: ["cerebral-triad", "triage"]
+assignees: []
+
+body:
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service
+      description: Which cerebral triad service is affected?
+      options:
+        - thought-service (T-7)
+        - processing-director (PD-2)
+        - processing-service (P-5)
+        - output-service (O-4)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What type of issue is this?
+      options:
+        - Bug Report
+        - Feature Request
+        - Performance Issue
+        - Documentation
+        - Configuration
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the issue
+      placeholder: Describe the issue, expected behavior, and actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: How can this issue be reproduced?
+      placeholder: |
+        1. Step one
+        2. Step two
+        3. Step three
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and Error Messages
+      description: Include any relevant logs or error messages
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: environment
+    attributes:
+      label: Environment
+      description: Which environments are affected?
+      options:
+        - label: Development
+        - label: Staging  
+        - label: Production
+        - label: Docker Container
+        - label: Kubernetes Cluster

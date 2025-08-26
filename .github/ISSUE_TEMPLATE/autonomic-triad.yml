@@ -1,0 +1,41 @@
+name: ⚡ Autonomic Triad Issue
+description: Issues related to autonomic triad services (monitoring, state-management, process-director, processing, trigger)
+title: "[AUTONOMIC] "
+labels: ["autonomic-triad", "triage"]
+assignees: []
+
+body:
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service
+      description: Which autonomic triad service is affected?
+      options:
+        - monitoring-service (M-1)
+        - state-management (S-8)
+        - process-director (PD-2)
+        - processing-service (P-5)
+        - trigger-service (T-7)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      options:
+        - Bug Report
+        - Feature Request
+        - Performance Issue
+        - Documentation
+        - Configuration
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the issue
+    validations:
+      required: true

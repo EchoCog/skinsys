@@ -1,0 +1,51 @@
+{
+  "name": "cosmos-system-5",
+  "version": "1.0.0",
+  "description": "Cognitive Cities Architecture - A neurological-inspired distributed system",
+  "private": true,
+  "workspaces": [
+    "cerebral-triad/*",
+    "somatic-triad/*", 
+    "autonomic-triad/*",
+    "cognitive-core/*",
+    "integration-hub/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:workspaces",
+    "install:workspaces": "npm install --workspaces",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "start:dev": "npm run start:dev --workspaces",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "nodemon": "^3.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "jest": "^29.0.0",
+    "@types/jest": "^29.0.0",
+    "ts-jest": "^29.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EchoCog/cosmos-system-5.git"
+  },
+  "keywords": [
+    "cognitive-cities",
+    "microservices",
+    "distributed-systems",
+    "neurological-architecture"
+  ],
+  "author": "EchoCog",
+  "license": "AGPL-3.0"
+}

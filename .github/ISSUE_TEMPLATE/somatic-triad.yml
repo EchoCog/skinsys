@@ -1,0 +1,40 @@
+name: 🤖 Somatic Triad Issue
+description: Issues related to somatic triad services (motor-control, sensory, processing, output)
+title: "[SOMATIC] "
+labels: ["somatic-triad", "triage"]
+assignees: []
+
+body:
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service
+      description: Which somatic triad service is affected?
+      options:
+        - motor-control-service (M-1)
+        - sensory-service (S-8)
+        - processing-service (P-5)
+        - output-service (O-4)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      options:
+        - Bug Report
+        - Feature Request
+        - Performance Issue
+        - Documentation
+        - Configuration
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the issue
+    validations:
+      required: true

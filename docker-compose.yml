@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Cerebral Triad Services
+  thought-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_PATH: cerebral-triad/thought-service
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    networks:
+      - cognitive-network
+
+  # Integration Hub Services
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_PATH: integration-hub/api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    depends_on:
+      - thought-service
+    networks:
+      - cognitive-network
+
+  # Event Bus (using Redis for now)
+  event-bus:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - cognitive-network
+
+  # Monitoring
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./deployment-configs/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - cognitive-network
+
+networks:
+  cognitive-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  prometheus-data:

@@ -1,0 +1,49 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'api-gateway'
+    static_configs:
+      - targets: ['api-gateway:3000']
+    metrics_path: '/metrics'
+    scrape_interval: 5s
+
+  - job_name: 'cerebral-triad'
+    static_configs:
+      - targets: 
+        - 'thought-service:3001'
+        - 'processing-director:3002'
+        - 'cerebral-processing:3003'
+        - 'cerebral-output:3004'
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  - job_name: 'somatic-triad'
+    static_configs:
+      - targets:
+        - 'motor-control:3011'
+        - 'sensory:3012'
+        - 'somatic-processing:3013'
+        - 'somatic-output:3014'
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+
+  - job_name: 'autonomic-triad'
+    static_configs:
+      - targets:
+        - 'monitoring:3021'
+        - 'state-management:3022'
+        - 'autonomic-director:3023'
+        - 'autonomic-processing:3024'
+        - 'trigger:3025'
+    metrics_path: '/metrics'
+    scrape_interval: 10s

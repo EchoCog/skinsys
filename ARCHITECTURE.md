@@ -14,18 +14,22 @@ The reference diagram shows the Company & Nervous System Integration, adapted fr
 
 ## Complete System Mapping
 
+### Polarity-Based Service Architecture
+
+The Cognitive Cities system implements a neurologically-accurate polarity structure with 16 functions distributed across three triads. For complete polarity documentation, see [POLARITY_STRUCTURE.md](POLARITY_STRUCTURE.md).
+
 ### 1. Neocortex → Cerebral Triad (Yellow)
 
 The neocortex represents higher-order cognitive functions and executive control.
 
 #### Brain Regions to Services Mapping
 
-| Neurological Component | Function | GitHub Service | Port | Implementation |
-|----------------------|----------|----------------|------|----------------|
-| **Right Hemisphere** | Intuitive idea generation, pattern recognition, creative potential | `thought-service/` (T-7) | 3001 | Generates creative solutions, ideas, and potential responses using knowledge bases |
-| **Left Hemisphere** | Applied techniques, logical commitment, structured output | `output-service/` (O-4) | 3004 | Formats responses logically, structures data, provides committed solutions |
-| **Processing Director** | Central coordination and executive control | `processing-director/` (PD-2) | 3002 | Orchestrates information flow, coordinates between services |
-| **Neocortex Processing** | Analytical thinking, reasoning, complex analysis | `processing-service/` (P-5) | 3003 | Performs detailed analysis, reasoning, and complex processing |
+| Neurological Component | Function | GitHub Service | Port | Polarity | Implementation |
+|----------------------|----------|----------------|------|----------|----------------|
+| **Right Hemisphere** | Intuitive idea generation, pattern recognition, creative potential | `thought-service/` (T-7) | 3001 | Sympathetic | Generates creative solutions, ideas, and potential responses using knowledge bases |
+| **Left Hemisphere** | Applied techniques, logical commitment, structured output | `output-service/` (O-4) | 3004 | Somatic | Formats responses logically, structures data, provides committed solutions |
+| **Processing Director** | Central coordination and executive control | `processing-director/` (PD-2) | 3002 | Parasympathetic | Orchestrates information flow, coordinates between services |
+| **Neocortex Processing** | Analytical thinking, reasoning, complex analysis | `processing-service/` (P-5) | 3003 | Somatic | Performs detailed analysis, reasoning, and complex processing |
 
 #### Service Flow
 ```mermaid
@@ -53,12 +57,12 @@ The basal system controls voluntary motor functions and somatic balance.
 
 #### Brain Regions to Services Mapping
 
-| Neurological Component | Function | GitHub Service | Port | Implementation |
-|----------------------|----------|----------------|------|----------------|
-| **Basal System** | Motor control, movement coordination, somatic balance | `motor-control-service/` (M-1) | 3011 | Coordinates system actions, manages behavioral sequences |
-| **Sensory Systems** | Environmental input processing, perception | `sensory-service/` (S-8) | 3012 | Processes external inputs, environmental data collection |
-| **Behavioral Processing** | Technique implementation, skill execution | `processing-service/` (P-5) | 3013 | Implements behavioral techniques, processes motor commands |
-| **Response Delivery** | Motor output, behavioral responses | `output-service/` (O-4) | 3014 | Delivers behavioral responses, action execution |
+| Neurological Component | Function | GitHub Service | Port | Polarity | Implementation |
+|----------------------|----------|----------------|------|----------|----------------|
+| **Basal System** | Motor control, movement coordination, somatic balance | `motor-control-service/` (M-1) | 3011 | Sympathetic | Coordinates system actions, manages behavioral sequences |
+| **Sensory Systems** | Environmental input processing, perception | `sensory-service/` (S-8) | 3012 | Somatic | Processes external inputs, environmental data collection |
+| **Behavioral Processing** | Technique implementation, skill execution | `processing-service/` (P-5) | 3013 | Somatic | Implements behavioral techniques, processes motor commands |
+| **Response Delivery** | Motor output, behavioral responses | `output-service/` (O-4) | 3014 | Sympathetic | Delivers behavioral responses, action execution |
 
 #### Service Flow
 ```mermaid
@@ -84,13 +88,15 @@ The autonomic nervous system manages background processes and emotional regulati
 
 #### Brain Regions to Services Mapping
 
-| Neurological Component | Function | GitHub Service | Port | Implementation |
-|----------------------|----------|----------------|------|----------------|
-| **Autonomic Monitoring** | System health, vital signs monitoring | `monitoring-service/` (M-1) | 3021 | Continuous health monitoring, performance metrics |
-| **Limbic System** | Emotional state, memory, context management | `state-management-service/` (S-8) | 3022 | Maintains system state, emotional context |
-| **Autonomic Coordination** | Background process orchestration | `process-director/` (PD-2) | 3023 | Manages background processes, resource allocation |
-| **Emotive Processing** | Emotional processing, intuitive responses | `processing-service/` (P-5) | 3024 | Handles emotive processing, pattern recognition |
-| **Autonomic Responses** | Reflexive reactions, trigger responses | `trigger-service/` (T-7) | 3025 | Initiates automatic responses, emergency procedures |
+| Neurological Component | Function | GitHub Service | Port | Polarity | Implementation |
+|----------------------|----------|----------------|------|----------|----------------|
+| **Autonomic Monitoring** | System health, vital signs monitoring | `monitoring-service/` (M-1) | 3021 | Parasympathetic* | Continuous health monitoring, performance metrics |
+| **Limbic System** | Emotional state, memory, context management | `state-management-service/` (S-8) | 3022 | Parasympathetic* | Maintains system state, emotional context |
+| **Autonomic Coordination** | Background process orchestration | `process-director/` (PD-2) | 3023 | Parasympathetic* | Manages background processes, resource allocation |
+| **Emotive Processing** | Emotional processing, intuitive responses | `processing-service/` (P-5) | 3024 | Somatic | Handles emotive processing, pattern recognition |
+| **Autonomic Responses** | Reflexive reactions, trigger responses | `trigger-service/` (T-7) | 3025 | Sympathetic | Initiates automatic responses, emergency procedures |
+
+*Shared parasympathetic functions that also serve the Somatic Triad
 
 #### Service Flow
 ```mermaid
@@ -116,17 +122,55 @@ sequenceDiagram
 ### Sympathetic Polarity → Event-Driven Architecture
 - **Function**: Active responses, alertness, immediate reactions
 - **Implementation**: Event bus system for real-time communication
-- **Services**: Trigger Service initiates immediate responses
+- **Services**: 
+  - Cerebral: Thought Service (T-7) - Active idea generation
+  - Somatic: Motor Control Service (M-1) - Active motor responses  
+  - Autonomic: Trigger Service (T-7) - Immediate reflex responses
 
 ### Parasympathetic Polarity → Background Processing
-- **Function**: Rest, maintenance, optimization
-- **Implementation**: Background processing workflows
-- **Services**: Process Director manages maintenance tasks
+- **Function**: Rest, maintenance, optimization, homeostasis
+- **Implementation**: Background processing workflows, shared across triads
+- **Services**: 
+  - Cerebral: Processing Director (PD-2) - Background coordination
+  - Shared (Somatic/Autonomic): Monitoring Service (M-1), State Management (S-8), Process Director (PD-2)
 
 ### Somatic Polarity → Behavioral Techniques
-- **Function**: Skill execution, behavioral patterns
+- **Function**: Skill execution, behavioral patterns, voluntary motor control
 - **Implementation**: Motor control and behavioral processing
-- **Services**: Motor Control Service coordinates behavioral responses
+- **Services**: 
+  - Cerebral: Processing Service (P-5), Output Service (O-4) - Analytical processing
+  - Somatic: Sensory Service (S-8), Processing Service (P-5) - Behavioral techniques
+  - Autonomic: Processing Service (P-5) - Emotive processing
+
+## Polarity-Based Function Distribution
+
+### The 16-Function Architecture Explained
+
+The system implements **16 functions instead of 18** due to the shared parasympathetic polarity between Somatic and Autonomic triads, reflecting neurobiological reality:
+
+```
+Expected: 3 Triads × 6 Functions = 18 Functions
+Actual:   3 Triads with Shared Parasympathetic = 16 Functions
+
+Breakdown:
+- Cerebral Triad: 4 functions (T-7, PD-2, P-5, O-4)
+- Somatic Triad: 4 functions (M-1, S-8, P-5, O-4) 
+- Autonomic Triad: 5 functions (M-1, S-8, PD-2, P-5, T-7)
+- Shared Parasympathetic: 3 functions serve both Somatic and Autonomic
+Total: 16 unique functional implementations
+```
+
+### Ennead Structure Implementation
+
+The three-by-three polarity matrix creates an ennead (nine-fold) structure:
+
+| Triad/Polarity | Sympathetic | Parasympathetic | Somatic |
+|----------------|-------------|-----------------|---------|
+| **Cerebral** | T-7 (Thoughts) | PD-2 (Coordination) | P-5, O-4 (Analysis) |
+| **Somatic** | M-1 (Motor) | *[Shared Below]* | S-8, P-5 (Behavior) |
+| **Autonomic** | T-7 (Triggers) | M-1, S-8, PD-2 (Maintenance)* | P-5 (Emotive) |
+
+*Parasympathetic functions (M-1, S-8, PD-2) serve both Somatic and Autonomic triads*
 
 ## Integration Layer
 

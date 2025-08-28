@@ -1,31 +1,93 @@
 # Somatic Triad
 
-The Somatic Triad represents the **behavioral and sensory processing** layer of the Cognitive Cities Architecture. It mirrors the voluntary motor functions and sensory systems of the brain, handling action coordination, environmental sensing, behavioral technique implementation, and response delivery.
+The Somatic Triad represents the **behavioral and sensory processing** layer of the Cognitive Cities Architecture. It mirrors the voluntary motor functions and sensory systems of the brain, implementing the **[[D-T]-[P-O]-[S-M]] pattern** with **6 analogous services** and **parasympathetic polarity sharing** with the Autonomic Triad.
 
 ## Architecture Overview
 
-The Somatic Triad consists of four interconnected services that work together to process sensory inputs and coordinate behavioral outputs:
+The Somatic Triad consists of **six interconnected services** following the **[[D-T]-[P-O]-[S-M]]** pattern that work together to process sensory inputs and coordinate behavioral outputs:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                 SOMATIC TRIAD                           │
-│                                                         │
-│  ┌─────────────┐    ┌─────────────────┐    ┌─────────┐ │
-│  │ Motor       │    │ Somatic         │    │ Output  │ │
-│  │ Control     │───▶│ Processing      │───▶│ Service │ │
-│  │ Service     │    │ Service         │    │ (O-4)   │ │
-│  │ (M-1)       │    │ (P-5)           │    └─────────┘ │
-│  └─────────────┘    └─────────────────┘               │
-│         │                     │                        │
-│         │            ┌─────────────────┐               │
-│         └───────────▶│ Sensory         │               │
-│                      │ Service         │               │
-│                      │ (S-8)           │               │
-│                      └─────────────────┘               │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          SOMATIC TRIAD [6]                             │
+│                    [[D-T]-[P-O]-[S-M]] Pattern                        │
+│                                                                         │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────┐            │
+│  │ Process     │───▶│ Treasury    │    │ Processing     │────────┐     │
+│  │ Director    │    │ Service     │    │ Service        │        │     │
+│  │ (PD-2)*     │    │ (T-7)*      │    │ (P-5)          │        │     │
+│  └─────────────┘    └─────────────┘    └─────────────────┘        │     │
+│         │                   │                   │                 │     │
+│         │                   │                   ▼                 ▼     │
+│         │                   │          ┌─────────────────┐ ┌─────────┐  │
+│         │                   │          │ Output Service  │ │ Sensory │  │
+│         │                   │          │ (O-4)          │ │ Service │  │
+│         │                   │          └─────────────────┘ │ (S-8)   │  │
+│         │                   │                   │         └─────────┘  │
+│         │                   │                   │                │     │
+│         │                   │                   ▼                ▼     │
+│         │                   │          ┌─────────────────────────────┐  │
+│         │                   └─────────▶│ Motor Control Service       │  │
+│         │                              │ (M-1)                      │  │
+│         └─────────────────────────────▶│                           │  │
+│                                        └─────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Services
+*Parasympathetic Polarity [D-T] shared with Autonomic Triad
+
+## Services Following [[D-T]-[P-O]-[S-M]] Pattern
+
+### **[D-T] Potential Dimension: Development → Treasury**
+
+#### Process Director (PD-2) - Development
+- **Shared Parasympathetic Polarity**: Coordinates motor development and behavioral optimization shared with Autonomic Triad
+- **Function**: Motor skill development, background motor coordination, behavioral pattern optimization
+- **Implementation**: Background process management for voluntary motor functions
+
+#### Treasury Service (T-7) - Treasury  
+- **Shared Parasympathetic Polarity**: Motor memory storage and learned skills access shared with Autonomic Triad
+- **Function**: Motor memory, learned behavioral skills, pattern storage and retrieval
+- **Implementation**: Background skills storage, motor technique coordination
+
+### **[P-O] Commitment Dimension: Production → Organization**
+
+#### Processing Service (P-5) - Production
+- **Function**: Behavioral technique implementation, motor skill execution
+- **Implementation**: Active processing of motor commands and behavioral responses
+
+#### Output Service (O-4) - Organization
+- **Function**: Behavioral response delivery, action execution, motor output coordination
+- **Implementation**: Structured delivery of motor responses and behavioral actions
+
+### **[S-M] Performance Dimension: Sales → Market**
+
+#### Sensory Service (S-8) - Sales
+- **Function**: Environmental input processing, sensory data collection and analysis
+- **Implementation**: Sensory analysis, environmental adaptation, input processing
+
+#### Motor Control Service (M-1) - Market
+- **Function**: Active motor responses, action initiation, voluntary motor control
+- **Implementation**: Motor control execution, behavior sequencing, action coordination
+
+## Parasympathetic Polarity Sharing
+
+The Somatic Triad shares the **Parasympathetic Polarity [D-T]** with the Autonomic Triad:
+
+- **PD-2 (Development)**: Background coordination serves both voluntary (somatic) and involuntary (autonomic) systems
+- **T-7 (Treasury)**: Memory systems coordinate both motor skills (somatic) and trigger responses (autonomic)
+- **Integration**: This sharing reflects neurobiological reality where parasympathetic coordination spans both systems
+
+## Basal-Limbic System Balance
+
+The Somatic **S-M (Sensory-Motor)** services contribute to the **Basal-vs-Limbic System Balance**:
+
+- **Somatic Balance**: Routine sensory-motor processing and learned behavioral responses
+- **Integration**: Works with Cerebral and Autonomic S-M sets to create system-wide balance
+- **Function**: Environmental adaptation through sensory-motor coordination
+
+---
+
+## Service Implementation Details
 
 ### Motor Control Service (M-1)
 **Status**: ✅ **FULLY IMPLEMENTED**  

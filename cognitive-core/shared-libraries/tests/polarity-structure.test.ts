@@ -232,7 +232,7 @@ describe('Triadic Polarity Structure and C-S-A [3-6-9] Framework', () => {
       expect(marketServices).toHaveLength(3); // One M-1 per triad
       
       // Validate each triad has S-M pair
-      ['cerebral', 'somatic', 'autonomic'].forEach(triad => {
+      (['cerebral', 'somatic', 'autonomic'] as const).forEach(triad => {
         const triadServices = systemDimensionalConfig[triad];
         const triadSales = triadServices.filter(s => s.dimension.position === 'sales');
         const triadMarket = triadServices.filter(s => s.dimension.position === 'market');

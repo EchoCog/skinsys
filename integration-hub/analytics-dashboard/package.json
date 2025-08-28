@@ -1,0 +1,30 @@
+{
+  "name": "@cosmos/analytics-dashboard",
+  "version": "1.0.0",
+  "description": "Real-time analytics dashboard for Cognitive Cities system monitoring",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/analytics-dashboard.js",
+    "start:dev": "nodemon --exec \"npm run build && npm start\"",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "ws": "^8.13.0",
+    "@cosmos/cognitive-core-shared-libraries": "^1.0.0",
+    "simple-statistics": "^7.8.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.0",
+    "@types/cors": "^2.8.0",
+    "@types/ws": "^8.5.0",
+    "typescript": "^5.0.0",
+    "nodemon": "^3.0.0"
+  }
+}

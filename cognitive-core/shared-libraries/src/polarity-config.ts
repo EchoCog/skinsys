@@ -34,34 +34,8 @@ export interface DimensionalInteraction {
 }
 
 // Cerebral Triad [3] - Potential Focus Service Configurations
+// Following [[D-T]-[P-O]-[S-M]] pattern: 6 analogous services
 export const cerebralTriadDimensions: ServiceDimensionalConfig[] = [
-  {
-    serviceId: 'T-7',
-    serviceName: 'Thought Service',
-    triad: 'cerebral',
-    triadLevel: '[3]',
-    dimension: {
-      primary: 'potential',
-      flow: '[2-7]',
-      position: 'treasury',
-      shared: false,
-      characteristics: {
-        energyLevel: 'high',
-        responseTime: 'immediate',
-        processingMode: 'creative',
-        coordination: 'autonomous',
-        flowDirection: 'output'
-      }
-    },
-    interactions: [
-      {
-        targetService: 'PD-2',
-        interactionType: 'flow',
-        flowPattern: 'development→treasury',
-        conditions: ['coordination_enabled', 'creative_insight_generated']
-      }
-    ]
-  },
   {
     serviceId: 'PD-2',
     serviceName: 'Processing Director',
@@ -92,6 +66,33 @@ export const cerebralTriadDimensions: ServiceDimensionalConfig[] = [
         interactionType: 'coordination',
         flowPattern: 'cross-dimensional',
         conditions: ['processing_required']
+      }
+    ]
+  },
+  {
+    serviceId: 'T-7',
+    serviceName: 'Thought Service',
+    triad: 'cerebral',
+    triadLevel: '[3]',
+    dimension: {
+      primary: 'potential',
+      flow: '[2-7]',
+      position: 'treasury',
+      shared: false,
+      characteristics: {
+        energyLevel: 'high',
+        responseTime: 'immediate',
+        processingMode: 'creative',
+        coordination: 'autonomous',
+        flowDirection: 'output'
+      }
+    },
+    interactions: [
+      {
+        targetService: 'PD-2',
+        interactionType: 'flow',
+        flowPattern: 'development→treasury',
+        conditions: ['coordination_enabled', 'creative_insight_generated']
       }
     ]
   },
@@ -141,23 +142,112 @@ export const cerebralTriadDimensions: ServiceDimensionalConfig[] = [
       }
     },
     interactions: []
-  }
-];
-
-// Somatic Triad [6] - Commitment Focus Service Configurations
-export const somaticTriadDimensions: ServiceDimensionalConfig[] = [
+  },
   {
-    serviceId: 'M-1',
-    serviceName: 'Motor Control Service',
-    triad: 'somatic',
-    triadLevel: '[6]',
+    serviceId: 'S-8',
+    serviceName: 'Sales Service',
+    triad: 'cerebral',
+    triadLevel: '[3]',
     dimension: {
-      primary: 'commitment',
-      flow: '[5-4]',
-      position: 'production',
+      primary: 'performance',
+      flow: '[8-1]',
+      position: 'sales',
       shared: false,
       characteristics: {
         energyLevel: 'high',
+        responseTime: 'immediate',
+        processingMode: 'analytical',
+        coordination: 'autonomous',
+        flowDirection: 'output'
+      }
+    },
+    interactions: [
+      {
+        targetService: 'M-1',
+        interactionType: 'flow',
+        flowPattern: 'sales→market',
+        conditions: ['output_quality_verified', 'market_ready']
+      }
+    ]
+  },
+  {
+    serviceId: 'M-1',
+    serviceName: 'Market Service',
+    triad: 'cerebral',
+    triadLevel: '[3]',
+    dimension: {
+      primary: 'performance',
+      flow: '[8-1]',
+      position: 'market',
+      shared: false,
+      characteristics: {
+        energyLevel: 'medium',
+        responseTime: 'background',
+        processingMode: 'analytical',
+        coordination: 'collaborative',
+        flowDirection: 'input'
+      }
+    },
+    interactions: [
+      {
+        targetService: 'PD-2',
+        interactionType: 'feedback',
+        flowPattern: 'cross-dimensional',
+        conditions: ['performance_metrics_available', 'optimization_required']
+      }
+    ]
+  }
+];
+
+// Somatic Triad [6] - Commitment Focus Service Configurations  
+// Following [[D-T]-[P-O]-[S-M]] pattern: 6 analogous services
+// Shares Parasympathetic Polarity [D-T] with Autonomic Triad
+export const somaticTriadDimensions: ServiceDimensionalConfig[] = [
+  {
+    serviceId: 'PD-2',
+    serviceName: 'Process Director',
+    triad: 'somatic',
+    triadLevel: '[6]',
+    dimension: {
+      primary: 'potential',
+      flow: '[2-7]',
+      position: 'development',
+      shared: true, // Parasympathetic Polarity shared with Autonomic
+      characteristics: {
+        energyLevel: 'low',
+        responseTime: 'background',
+        processingMode: 'maintenance',
+        coordination: 'collaborative',
+        flowDirection: 'bidirectional'
+      }
+    },
+    interactions: [
+      {
+        targetService: 'T-7',
+        interactionType: 'flow',
+        flowPattern: 'development→treasury',
+        conditions: ['motor_development_required', 'behavioral_optimization']
+      },
+      {
+        targetService: 'autonomic-triad',
+        interactionType: 'sharing',
+        flowPattern: 'development→treasury',
+        conditions: ['parasympathetic_coordination_required']
+      }
+    ]
+  },
+  {
+    serviceId: 'T-7',
+    serviceName: 'Treasury Service',
+    triad: 'somatic',
+    triadLevel: '[6]',
+    dimension: {
+      primary: 'potential',
+      flow: '[2-7]',
+      position: 'treasury',
+      shared: true, // Parasympathetic Polarity shared with Autonomic
+      characteristics: {
+        energyLevel: 'medium',
         responseTime: 'immediate',
         processingMode: 'reactive',
         coordination: 'autonomous',
@@ -166,37 +256,10 @@ export const somaticTriadDimensions: ServiceDimensionalConfig[] = [
     },
     interactions: [
       {
-        targetService: 'P-5',
-        interactionType: 'coordination',
-        flowPattern: 'production→organization',
-        conditions: ['motor_command_received', 'action_required']
-      }
-    ]
-  },
-  {
-    serviceId: 'S-8',
-    serviceName: 'Sensory Service',
-    triad: 'somatic',
-    triadLevel: '[6]',
-    dimension: {
-      primary: 'performance',
-      flow: '[8-1]',
-      position: 'sales',
-      shared: false,
-      characteristics: {
-        energyLevel: 'medium',
-        responseTime: 'immediate',
-        processingMode: 'reactive',
-        coordination: 'autonomous',
-        flowDirection: 'input'
-      }
-    },
-    interactions: [
-      {
-        targetService: 'M-1',
+        targetService: 'PD-2',
         interactionType: 'feedback',
-        flowPattern: 'sales→market',
-        conditions: ['sensory_input_processed', 'environmental_change']
+        flowPattern: 'development→treasury',
+        conditions: ['motor_memory_accessed', 'learned_skills_retrieved']
       }
     ]
   },
@@ -246,6 +309,60 @@ export const somaticTriadDimensions: ServiceDimensionalConfig[] = [
       }
     },
     interactions: []
+  },
+  {
+    serviceId: 'S-8',
+    serviceName: 'Sensory Service',
+    triad: 'somatic',
+    triadLevel: '[6]',
+    dimension: {
+      primary: 'performance',
+      flow: '[8-1]',
+      position: 'sales',
+      shared: false,
+      characteristics: {
+        energyLevel: 'medium',
+        responseTime: 'immediate',
+        processingMode: 'reactive',
+        coordination: 'autonomous',
+        flowDirection: 'input'
+      }
+    },
+    interactions: [
+      {
+        targetService: 'M-1',
+        interactionType: 'flow',
+        flowPattern: 'sales→market',
+        conditions: ['sensory_input_processed', 'environmental_change']
+      }
+    ]
+  },
+  {
+    serviceId: 'M-1',
+    serviceName: 'Motor Control Service',
+    triad: 'somatic',
+    triadLevel: '[6]',
+    dimension: {
+      primary: 'performance',
+      flow: '[8-1]',
+      position: 'market',
+      shared: false,
+      characteristics: {
+        energyLevel: 'high',
+        responseTime: 'immediate',
+        processingMode: 'reactive',
+        coordination: 'autonomous',
+        flowDirection: 'output'
+      }
+    },
+    interactions: [
+      {
+        targetService: 'PD-2',
+        interactionType: 'feedback',
+        flowPattern: 'cross-dimensional',
+        conditions: ['motor_command_received', 'action_required', 'performance_optimization_needed']
+      }
+    ]
   }
 ];
 
@@ -384,6 +501,33 @@ export const autonomicTriadDimensions: ServiceDimensionalConfig[] = [
       }
     },
     interactions: []
+  },
+  {
+    serviceId: 'O-4',
+    serviceName: 'Organization Service',
+    triad: 'autonomic',
+    triadLevel: '[9]',
+    dimension: {
+      primary: 'commitment',
+      flow: '[5-4]',
+      position: 'organization',
+      shared: false,
+      characteristics: {
+        energyLevel: 'low',
+        responseTime: 'background',
+        processingMode: 'maintenance',
+        coordination: 'collaborative',
+        flowDirection: 'output'
+      }
+    },
+    interactions: [
+      {
+        targetService: 'S-8',
+        interactionType: 'coordination',
+        flowPattern: 'cross-dimensional',
+        conditions: ['organization_complete', 'state_management_required']
+      }
+    ]
   }
 ];
 
@@ -435,13 +579,15 @@ export function validateTriadicStructure() {
   const sharedFunctions = getSharedDevelopmentServices().length;
   
   return {
-    expectedFunctions: 18, // 3 triads × 3 dimensions × 2 positions
+    expectedFunctions: 18, // 3 triads × 6 services = 18 total [[D-T]-[P-O]-[S-M]] pattern
     actualFunctions: totalFunctions,
-    uniqueFunctions: totalFunctions - sharedFunctions, // Should be 16
-    sharedDevelopment: sharedFunctions,
+    uniqueFunctions: totalFunctions, // Now should be 18 with shared parasympathetic polarity
+    sharedParasympatheticPolarity: 2, // D-T services shared between Somatic & Autonomic
     topology: 'C-S-A [3-6-9] Potential-Commitment-Performance',
-    dimensionalFlows: ['[2-7] Development→Treasury', '[5-4] Production→Organization', '[8-9] Sales→Market'],
-    explanation: `${totalFunctions} total functions - ${sharedFunctions} shared development = ${totalFunctions - sharedFunctions} unique implementations`
+    dimensionalFlows: ['[2-7] Development→Treasury', '[5-4] Production→Organization', '[8-1] Sales→Market'],
+    parasympatheticSharing: 'Somatic & Autonomic share Parasympathetic Polarity [D-T] (2-7)',
+    basalLimbicBalance: '3 sets of S-M (8-1) form core of Basal-vs-Limbic System Balance',
+    explanation: `18 total functions (3 triads × 6 services) following [[D-T]-[P-O]-[S-M]] pattern with parasympathetic polarity sharing`
   };
 }
 

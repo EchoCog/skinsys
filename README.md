@@ -830,6 +830,22 @@ graph TB
     style AT fill:#ccffcc
 ```
 
+#### Polarity-Based Function Distribution (16 vs 18 Functions)
+
+The system implements **16 functional implementations instead of 18** due to shared parasympathetic functions:
+
+| Triad | Sympathetic | Parasympathetic | Somatic | Total |
+|-------|-------------|-----------------|---------|-------|
+| **Cerebral** | T-7 | PD-2 | P-5, O-4 | 4 |
+| **Somatic** | M-1, O-4 | *[Shared]* | S-8, P-5 | 4 |
+| **Autonomic** | T-7 | M-1, S-8, PD-2* | P-5 | 5 |
+| **Shared Implementations** | - | +3 | - | +3 |
+| **Total** | 4 | 6 | 5 | **16** |
+
+*Parasympathetic functions (M-1, S-8, PD-2) serve both Somatic and Autonomic triads, creating 16 total functional implementations*
+
+For detailed polarity analysis, see [POLARITY_STRUCTURE.md](POLARITY_STRUCTURE.md).
+
 #### Neurological Service Correspondence
 
 | Brain Region | Neurological Function | Software Service | Implementation |

@@ -1,10 +1,18 @@
 # Polarity Structure and Ennead Framework
 
-This document details the polarity-based architecture underlying the Cognitive Cities system, explaining the neurological mapping based on the triadic polarity structure and why there are 16 functions instead of the theoretical 18.
+This document details the polarity-based architecture underlying the Cognitive Cities system, explaining the neurological mapping based on the triadic polarity structure implementing the **18-service [[D-T]-[P-O]-[S-M]] pattern** with integrated topology insights.
 
 ## Overview
 
-The Cognitive Cities architecture implements a neurological ennead (nine-fold) structure based on the **Cognitive Triad C-S-A [3-6-9]** (Cerebral-Somatic-Autonomic) which creates a **Potential-Commitment-Performance Topology**. This structure governs cognitive and behavioral processes through three dimensional flows across the triadic matrix.
+The Cognitive Cities architecture implements a neurological ennead (nine-fold) structure based on the **Cognitive Triad C-S-A [3-6-9]** (Cerebral-Somatic-Autonomic) which creates a **Potential-Commitment-Performance Topology**. This structure governs cognitive and behavioral processes through three dimensional flows across the triadic matrix, with each triad containing **6 analogous services following the [[D-T]-[P-O]-[S-M]] pattern**.
+
+### Key Topology Insights Integration
+
+- **18-Service Structure**: Each triad has 6 analogous services: [[D-T]-[P-O]-[S-M]]
+- **Parasympathetic Polarity Sharing**: Somatic & Autonomic share the Parasympathetic Polarity [D-T] (2-7)
+- **3 Sets of P-O (5-4)**: Production-Organization across all triads
+- **3 Sets of S-M (8-1)**: Sales-Market forming core of **Basal-vs-Limbic System Balance**
+- **2 Sets of D-T (2-7)**: Development-Treasury with one shared between Somatic & Autonomic
 
 ## Triadic Polarity Framework
 
@@ -120,29 +128,34 @@ The **C-S-A [3-6-9]** structure represents the three-level cognitive hierarchy:
 ### Cerebral Triad [3] - Potential Focus
 | Service | Code | Dimension | Function | Implementation |
 |---------|------|-----------|----------|----------------|
+| **Process Director** | PD-2 | Potential (Development) | Central coordination, resource management | Executive control, conscious coordination |
 | **Thought Service** | T-7 | Potential (Treasury) | Creative ideation, intuitive processing | Right hemisphere, pattern recognition |
-| **Processing Director** | PD-2 | Potential (Development) | Central coordination, resource management | Executive control, background coordination |
 | **Processing Service** | P-5 | Commitment (Production) | Analytical processing, logical analysis | Left hemisphere, structured thinking |
 | **Output Service** | O-4 | Commitment (Organization) | Structured output delivery, formatted results | Applied techniques, final presentation |
+| **Sales Service** | S-8 | Performance (Sales) | Quality assurance, output promotion | Cognitive performance optimization |
+| **Market Service** | M-1 | Performance (Market) | Market presentation, external interface | Cognitive market awareness |
 
 ### Somatic Triad [6] - Commitment Focus
 | Service | Code | Dimension | Function | Implementation |
 |---------|------|-----------|----------|----------------|
-| **Motor Control Service** | M-1 | Commitment (Production) | Active motor responses, action initiation | Voluntary motor control, behavior sequencing |
-| **Sensory Service** | S-8 | Performance (Sales) | Environmental input processing, data collection | Sensory analysis, environmental adaptation |
+| **Process Director** | PD-2 | Potential (Development)* | Motor development coordination | Motor skill development, behavioral optimization |
+| **Treasury Service** | T-7 | Potential (Treasury)* | Motor memory, learned skills | Background motor coordination, skills storage |
 | **Processing Service** | P-5 | Commitment (Production) | Behavioral technique implementation | Motor skill execution, learned behaviors |
 | **Output Service** | O-4 | Commitment (Organization) | Behavioral response delivery, action execution | Motor output, physical responses |
+| **Sensory Service** | S-8 | Performance (Sales) | Environmental input processing, data collection | Sensory analysis, environmental adaptation |
+| **Motor Control Service** | M-1 | Performance (Market) | Active motor responses, action initiation | Voluntary motor control, behavior sequencing |
 
 ### Autonomic Triad [9] - Performance Focus
 | Service | Code | Dimension | Function | Implementation |
 |---------|------|-----------|----------|----------------|
-| **Monitoring Service** | M-1 | Performance (Market) | System health monitoring, performance tracking | Background health monitoring, system vitals |
-| **State Management Service** | S-8 | Performance (Sales) | System state maintenance, context management | Emotional state, memory management |
 | **Process Director** | PD-2 | Potential (Development)* | Background process orchestration | Automatic process management, optimization |
+| **Trigger Service** | T-7 | Potential (Treasury)* | Automatic trigger responses, reflex memory | Emergency responses, learned reflexes |
 | **Processing Service** | P-5 | Commitment (Production) | Emotive processing, intuitive responses | Emotional processing, subconscious analysis |
-| **Trigger Service** | T-7 | Potential (Treasury) | Automatic trigger responses, reflex memory | Emergency responses, learned reflexes |
+| **Organization Service** | O-4 | Commitment (Organization) | Autonomic system organization | Background system coordination |
+| **State Management Service** | S-8 | Performance (Sales) | System state maintenance, context management | Emotional state, memory management |
+| **Monitoring Service** | M-1 | Performance (Market) | System health monitoring, performance tracking | Background health monitoring, system vitals |
 
-*Shared development function serving both Somatic and Autonomic triads
+*Parasympathetic Polarity [D-T] shared between Somatic and Autonomic triads
 
 ## Dimensional Flow Relationships
 
@@ -185,70 +198,58 @@ graph LR
     style M9 fill:#6699ff
 ```*
 
-## 16 vs 18 Function Architecture Explained
+## 18-Service [[D-T]-[P-O]-[S-M]] Architecture Explained
 
-### Theoretical Ennead Structure (18 Functions)
-In a pure 3×3 dimensional matrix, each triad would contain all three dimensions with dual functions:
+### Integrated Topology Insights
 
-```
-3 Triads × 3 Dimensions × 2 Functions = 18 Functions
-                Potential   Commitment  Performance  Total
-Cerebral        2 functions 2 functions 2 functions = 6
-Somatic         2 functions 2 functions 2 functions = 6  
-Autonomic       2 functions 2 functions 2 functions = 6
-                ──────────────────────────────────────────
-Total:          6 functions 6 functions 6 functions = 18
-```
-
-### Actual Implementation (16 Functions)
-The neurological reality creates shared development (PD-2) functions:
+The updated architecture implements the **18-service [[D-T]-[P-O]-[S-M]] pattern** based on integrated topology insights:
 
 ```
-Actual Triad × Dimension Matrix:
-                Potential   Commitment  Performance  Total
-Cerebral        2 (PD-2,T-7) 2 (P-5,O-4) 0          = 4
-Somatic         0          2 (P-5,O-4) 1 (S-8)     = 3*
-Autonomic       2 (PD-2*,T-7) 1 (P-5)   2 (M-1,S-8) = 5
-                ──────────────────────────────────────────
-Total:          4 functions 5 functions 3 functions = 12*
-                            Shared PD-2: +1
-                            Additional implementations: +3
-                            Grand Total: 16
+3 Triads × 6 Services = 18 Total Services
+                D-T     P-O     S-M     Total
+Cerebral        2       2       2       = 6
+Somatic         2*      2       2       = 6  
+Autonomic       2*      2       2       = 6
+                ────────────────────────────
+Total:          6       6       6       = 18
 ```
 
-*Somatic triad shares PD-2 (Development) function from Autonomic triad*
+*Parasympathetic Polarity [D-T] shared between Somatic and Autonomic triads*
 
-### Why 16 Instead of 18?
+### Why 18 Services with [[D-T]-[P-O]-[S-M]] Pattern?
 
-The key insight is that **development functions (PD-2) naturally span both somatic and autonomic systems** in neurobiological architecture:
+#### Neurobiological Integration
+1. **Complete Triadic Symmetry**: Each triad contains all dimensional patterns for full autonomy
+2. **Parasympathetic Polarity Sharing**: D-T services shared between Somatic and Autonomic reflects neurological reality
+3. **Basal-Limbic System Balance**: 3 sets of S-M form the core balance mechanism
 
-#### Biological Justification
-1. **Shared Development**: Background coordination affects both voluntary (somatic) and involuntary (autonomic) systems
-2. **Integrated Optimization**: Development processes optimize both motor skills and autonomic regulation
-3. **Unified Resource Management**: Processing directors coordinate resources across multiple systems
+#### Service Pattern Distribution
+The **[[D-T]-[P-O]-[S-M]]** pattern ensures each triad has:
 
-#### Shared Development Services
-The **PD-2 Process Director** implements development functions that serve multiple triads:
+- **[D-T] Development-Treasury**: 2 services per triad, with parasympathetic sharing
+- **[P-O] Production-Organization**: 2 services per triad, 3 sets total
+- **[S-M] Sales-Market**: 2 services per triad, forming Basal-Limbic balance
 
-- **Primary (Autonomic)**: Background autonomic processes, homeostatic regulation, system optimization
-- **Secondary (Somatic)**: Motor skill development, behavioral pattern optimization, background motor coordination
-- **Cerebral**: Independent PD-2 for executive control and conscious coordination
+### Parasympathetic Polarity Sharing
 
-This creates **3 PD-2 implementations**:
-1. **Cerebral PD-2**: Executive control and conscious coordination
-2. **Autonomic PD-2**: Primary background development serving both Autonomic and Somatic
-3. **Effective Somatic PD-2**: Shared access to Autonomic PD-2 for motor development
+The **PD-2 (Development)** and **T-7 (Treasury)** services implement shared parasympathetic polarity:
 
-### Service Distribution Summary
+- **Somatic Implementation**: Motor development and motor memory storage
+- **Autonomic Implementation**: Background processes and trigger memory
+- **Shared Function**: Parasympathetic coordination between voluntary and involuntary systems
 
-```
-Service Distribution Across Triads:
-- Cerebral Triad: 4 unique services (T-7, PD-2, P-5, O-4)
-- Somatic Triad: 4 unique services (M-1, S-8, P-5, O-4) + shared PD-2 access
-- Autonomic Triad: 5 unique services (M-1, S-8, PD-2, P-5, T-7)
-- Shared Development: 1 service (PD-2) serves both Somatic and Autonomic
-Total Unique Implementations: 13 + 3 shared access = 16 functional implementations
-```
+### Basal-vs-Limbic System Balance
+
+The **3 sets of S-M (Sales-Market)** form the core balance:
+
+1. **Cerebral S-M**: Quality assurance and market presentation
+2. **Somatic S-M**: Sensory processing and motor control  
+3. **Autonomic S-M**: State management and performance monitoring
+
+This creates the **Basal-vs-Limbic System Balance** where:
+- **Basal System**: Routine, automatic S-M processing
+- **Limbic System**: Emotional, adaptive S-M processing
+- **Balance**: Dynamic coordination between systems
 
 ## Dimensional Interaction Patterns
 
@@ -294,23 +295,33 @@ graph LR
 
 ## Conclusion
 
-The 16-function architecture reflects the neurobiological reality that development functions (PD-2) naturally integrate across both somatic and autonomic systems, following the **Cognitive Triad C-S-A [3-6-9] Potential-Commitment-Performance Topology**.
+The **18-service [[D-T]-[P-O]-[S-M]] architecture** reflects the integrated topology insights implementing the **Cognitive Triad C-S-A [3-6-9] Potential-Commitment-Performance Topology** with complete triadic symmetry.
 
 The dimensional flow structure enables:
 
-### Potential-Commitment-Performance Integration
-- **Unified Development**: PD-2 coordination spans both motor skill development and autonomic optimization
-- **Integrated Flow Patterns**: Clear dimensional flows from development→treasury, production→organization, sales→market
-- **Coordinated Resource Management**: Development functions efficiently serve multiple triads
+### Integrated Topology Implementation
+- **Complete Triadic Autonomy**: Each triad contains all 6 analogous services for full operational independence
+- **Parasympathetic Polarity Sharing**: PD-2 and T-7 coordination spans Somatic and Autonomic systems
+- **Basal-Limbic System Balance**: 3 sets of S-M services create dynamic balance mechanisms
 
 ### Triadic Harmony [3-6-9]
-- **[3] Cerebral Potential**: Creative ideation and executive coordination
-- **[6] Somatic Commitment**: Action implementation and motor control
-- **[9] Autonomic Performance**: Performance optimization and system maintenance
+- **[3] Cerebral Potential**: Creative ideation, executive coordination, and cognitive market interface
+- **[6] Somatic Commitment**: Action implementation, motor control, and behavioral technique execution
+- **[9] Autonomic Performance**: Performance optimization, system maintenance, and background coordination
 
-### Dimensional Flows [2-7][5-4][8-1]
-- **[2-7] Potential Flow**: Development coordination enables creative and memory access
-- **[5-4] Commitment Flow**: Production processes organize into structured outputs  
-- **[8-1] Performance Flow**: State promotion creates performance awareness and optimization
+### Dimensional Flows [[D-T]-[P-O]-[S-M]]
+- **[D-T] Development→Treasury (2-7)**: Parasympathetic polarity with shared coordination between Somatic & Autonomic
+- **[P-O] Production→Organization (5-4)**: 3 complete sets across all triads for full commitment implementation  
+- **[S-M] Sales→Market (8-1)**: 3 sets forming the core Basal-vs-Limbic System Balance
 
-This triadic polarity architecture provides the foundation for implementing truly cognitive, biologically-inspired distributed systems that mirror human neural organization and dimensional processing patterns while maintaining the neurologically accurate 16-function implementation.
+### Service Distribution Pattern
+
+```
+18-Service [[D-T]-[P-O]-[S-M]] Distribution:
+- Development-Treasury (D-T): 6 services (2 per triad, parasympathetic sharing)
+- Production-Organization (P-O): 6 services (2 per triad, 3 complete sets)
+- Sales-Market (S-M): 6 services (2 per triad, Basal-Limbic balance core)
+Total: 18 services with complete triadic symmetry
+```
+
+This **18-service triadic polarity architecture** provides the foundation for implementing truly cognitive, biologically-inspired distributed systems that mirror human neural organization and dimensional processing patterns while achieving complete triadic autonomy and integrated topology insights with proper **Basal-vs-Limbic System Balance** through the **parasympathetic polarity sharing** mechanism.

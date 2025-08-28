@@ -549,7 +549,7 @@ export function analyzeDimensionalBalance(triad: 'cerebral' | 'somatic' | 'auton
   const flowCounts = services.reduce((acc, service) => {
     acc[service.dimension.flow]++;
     return acc;
-  }, { '[2-7]': 0, '[5-4]': 0, '[8-9]': 0 });
+  }, { '[2-7]': 0, '[5-4]': 0, '[8-1]': 0 });
   
   return {
     triad,
@@ -604,7 +604,7 @@ export function getDimensionalFlowPatterns() {
       services: ['P-5', 'O-4']
     },
     performanceFlow: {
-      pattern: '[8-9] Sales → Market',
+      pattern: '[8-1] Sales → Market',
       description: 'Sales/Promotion process flows through Market/Perception structure', 
       services: ['S-8', 'M-1']
     }

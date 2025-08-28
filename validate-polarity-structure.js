@@ -11,7 +11,7 @@ const cerebralServices = {
   dimensions: {
     potential: ['PD-2', 'T-7'], // [2-7] Development→Treasury
     commitment: ['P-5', 'O-4'], // [5-4] Production→Organization
-    performance: []              // [8-9] Sales→Market
+    performance: []              // [8-1] Sales→Market
   }
 };
 
@@ -21,7 +21,7 @@ const somaticServices = {
   dimensions: {
     potential: [],               // [2-7] Development→Treasury (shared from Autonomic)
     commitment: ['M-1', 'P-5', 'O-4'], // [5-4] Production→Organization
-    performance: ['S-8']         // [8-9] Sales→Market
+    performance: ['S-8']         // [8-1] Sales→Market
   }
 };
 
@@ -31,7 +31,7 @@ const autonomicServices = {
   dimensions: {
     potential: ['PD-2', 'T-7'], // [2-7] Development→Treasury
     commitment: ['P-5'],         // [5-4] Production→Organization
-    performance: ['S-8', 'M-1'] // [8-9] Sales→Market
+    performance: ['S-8', 'M-1'] // [8-1] Sales→Market
   }
 };
 
@@ -66,7 +66,7 @@ console.log('- Somatic: P-5 → O-4 (Behavioral processing → Motor output)');
 console.log('- Autonomic: P-5 (Emotive processing)');
 console.log();
 
-console.log('[8-9] Performance Flow: Sales → Market');
+console.log('[8-1] Performance Flow: Sales → Market');
 console.log('- Somatic: S-8 (Sensory sales/input processing)');
 console.log('- Autonomic: S-8 → M-1 (State sales → Performance market)');
 console.log();
@@ -102,14 +102,14 @@ const performanceCount = somaticServices.dimensions.performance.length + autonom
 
 console.log(`Potential Dimension [2-7]: ${potentialCount} services (Development→Treasury)`);
 console.log(`Commitment Dimension [5-4]: ${commitmentCount} services (Production→Organization)`);  
-console.log(`Performance Dimension [8-9]: ${performanceCount} services (Sales→Market)`);
+console.log(`Performance Dimension [8-1]: ${performanceCount} services (Sales→Market)`);
 console.log();
 
 console.log('=== Validation Summary ===');
 console.log('✓ C-S-A [3-6-9] triadic topology implemented correctly');
 console.log('✓ All three dimensions properly distributed across triads');  
 console.log('✓ Shared development function explains 16 vs 18 discrepancy');
-console.log('✓ Dimensional flows [2-7], [5-4], [8-9] correctly mapped');
+console.log('✓ Dimensional flows [2-7], [5-4], [8-1] correctly mapped');
 console.log('✓ Potential-Commitment-Performance topology accurately implemented');
 console.log('✓ Architecture reflects neurobiological accuracy with triadic structure');
 console.log();

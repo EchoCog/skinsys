@@ -22,7 +22,7 @@ The three primary dimensions that govern the cognitive architecture:
    - Development/Ideation process flows through Treasury/Memory structure
    - Represents creative potential and stored knowledge
 
-3. **Performance Dimension: P-O [8-9]**
+3. **Performance Dimension: P-O [8-1]**
    - Sales/Promotion process flows through Market/Perception structure  
    - Represents output delivery and perception management
 
@@ -56,8 +56,8 @@ The three primary dimensions that govern the cognitive architecture:
 - **Somatic**: Background coordination → Motor memory/skills
 - **Autonomic**: PD-2 (Background Processes) → T-7 (Trigger Memory)
 
-### 3. Performance Dimension [8-9]: Sales → Market
-**Flow**: S-8 (Sales/Promotion/State) → Market/Perception Interface
+### 3. Performance Dimension [8-1]: Sales → Market
+**Flow**: S-8 (Sales/Promotion/State) → M-1 (Market/Perception Interface)
 **Function**: Promotional processes flow through market perception structure
 **Characteristics**:
 - External interface and presentation
@@ -67,8 +67,8 @@ The three primary dimensions that govern the cognitive architecture:
 
 **Triadic Implementation**:
 - **Cerebral**: Cognitive performance and output quality
-- **Somatic**: S-8 (Sensory Processing) → Environmental perception
-- **Autonomic**: S-8 (State Management) → System perception/status
+- **Somatic**: S-8 (Sensory Processing) → M-1 (Environmental perception)
+- **Autonomic**: S-8 (State Management) → M-1 (System perception/status)
 
 ## Cognitive Triad Topology [3-6-9]
 
@@ -107,7 +107,7 @@ The **C-S-A [3-6-9]** structure represents the three-level cognitive hierarchy:
 | **Somatic** | (Shared from Autonomic) | Motor memory, learned skills | Background → Skills |
 | **Autonomic** | Background process management | Trigger responses, reflex memory | Development → Reflexes |
 
-### Performance Flow [8-9]: Sales → Market
+### Performance Flow [8-1]: Sales → Market
 
 | Triad | S-8 (Sales/State) | Market Interface | Flow Characteristics |
 |-------|------------------|------------------|---------------------|
@@ -164,7 +164,7 @@ graph LR
         O4[O-4 Organization]
     end
     
-    subgraph "Performance Dimension [8-9]"
+    subgraph "Performance Dimension [8-1]"
         S8[S-8 Sales/State]
         M9[Market/Performance Interface]
     end
@@ -258,7 +258,7 @@ graph LR
     subgraph "Dimensional Flows"
         Pot[Potential [2-7]<br/>Development → Treasury]
         Com[Commitment [5-4]<br/>Production → Organization]  
-        Perf[Performance [8-9]<br/>Sales → Market]
+        Perf[Performance [8-1]<br/>Sales → Market]
     end
     
     Pot -->|Enables| Com
@@ -285,7 +285,7 @@ graph LR
 ### Dimensional API Design Patterns
 - **Potential Services [2-7]**: Background processing, coordination APIs with resource management and creative generation
 - **Commitment Services [5-4]**: Production-oriented APIs with structured processing and organized output delivery
-- **Performance Services [8-9]**: State management and monitoring APIs with performance optimization and feedback loops
+- **Performance Services [8-1]**: State management and monitoring APIs with performance optimization and feedback loops
 
 ### Monitoring and Metrics
 - **Dimensional Balance Metrics**: Track the balance between potential, commitment, and performance processing
@@ -308,9 +308,9 @@ The dimensional flow structure enables:
 - **[6] Somatic Commitment**: Action implementation and motor control
 - **[9] Autonomic Performance**: Performance optimization and system maintenance
 
-### Dimensional Flows [2-7][5-4][8-9]
+### Dimensional Flows [2-7][5-4][8-1]
 - **[2-7] Potential Flow**: Development coordination enables creative and memory access
 - **[5-4] Commitment Flow**: Production processes organize into structured outputs  
-- **[8-9] Performance Flow**: State promotion creates performance awareness and optimization
+- **[8-1] Performance Flow**: State promotion creates performance awareness and optimization
 
 This triadic polarity architecture provides the foundation for implementing truly cognitive, biologically-inspired distributed systems that mirror human neural organization and dimensional processing patterns while maintaining the neurologically accurate 16-function implementation.

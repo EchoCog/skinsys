@@ -10,7 +10,7 @@ This document provides visual representations of the triadic polarity structure 
 
     ┌─────────────┬──────────────┬─────────────────┬─────────────────┬─────────┐
     │   TRIAD     │  POTENTIAL   │   COMMITMENT    │  PERFORMANCE    │  TOTAL  │
-    │             │    [2-7]     │      [5-4]      │     [8-9]       │         │
+    │             │    [2-7]     │      [5-4]      │     [8-1]       │         │
     │             │   Dev→Treas  │   Prod→Org      │   Sales→Market  │         │
     ├─────────────┼──────────────┼─────────────────┼─────────────────┼─────────┤
     │             │              │                 │                 │         │
@@ -60,7 +60,7 @@ graph TB
         P5A[P-5 Autonomic<br/>Processing Service<br/>❤️ Emotive Production]
     end
     
-    subgraph "PERFORMANCE DIMENSION [8-9] - Sales → Market"
+    subgraph "PERFORMANCE DIMENSION [8-1] - Sales → Market"
         S8S[S-8 Somatic<br/>Sensory Service<br/>👁️ Environmental Sales]
         S8A[S-8 Autonomic<br/>State Management<br/>💾 State Sales]
         M1A[M-1 Autonomic<br/>Monitoring Service<br/>📊 Performance Market]
@@ -114,13 +114,13 @@ Focus: Creative ideation, executive coordination, analytical processing
 #### [6] Somatic Level - Commitment Focus  
 ```
 Primary Dimension: Commitment [5-4] Production → Organization
-Secondary: Performance [8-9] Sales → Market
+Secondary: Performance [8-1] Sales → Market
 Focus: Motor control, behavioral implementation, action execution
 ```
 
 #### [9] Autonomic Level - Performance Focus
 ```
-Primary Dimension: Performance [8-9] Sales → Market
+Primary Dimension: Performance [8-1] Sales → Market
 Secondary: Potential [2-7] Development → Treasury
 Focus: System optimization, background processes, state management
 ```
@@ -143,7 +143,7 @@ Description: Production/Motor process flows through Organization/Sensory structu
 Characteristics: Active implementation creates structured outputs
 ```
 
-#### [8-9] Performance Flow: Sales → Market
+#### [8-1] Performance Flow: Sales → Market
 ```
 Flow Pattern: S-8 (Sales/State) → M-1 (Market/Performance)
 Description: Sales/Promotion process flows through Market/Perception structure
@@ -156,7 +156,7 @@ Characteristics: State promotion creates performance awareness and optimization
 |-----------|-------------|---------------|-----------------|----------------|
 | **Potential [2-7]** | Low-High | Background-Immediate | Creative-Reactive | Development→Treasury |
 | **Commitment [5-4]** | Medium-High | Near-realtime-Immediate | Analytical-Reactive | Production→Organization |
-| **Performance [8-9]** | Low-Medium | Background-Immediate | Maintenance-Reactive | Sales→Market |
+| **Performance [8-1]** | Low-Medium | Background-Immediate | Maintenance-Reactive | Sales→Market |
 
 ## Cross-Dimensional Integration
 
@@ -165,7 +165,7 @@ graph LR
     subgraph "Dimensional Integration"
         Pot[Potential [2-7]<br/>Development → Treasury]
         Com[Commitment [5-4]<br/>Production → Organization]  
-        Perf[Performance [8-9]<br/>Sales → Market]
+        Perf[Performance [8-1]<br/>Sales → Market]
     end
     
     Pot -->|Enables| Com
@@ -219,5 +219,5 @@ This triadic dimensional architecture provides:
 ✅ **Triadic Structure**: C-S-A [3-6-9] topology properly implemented  
 ✅ **Shared Development**: Biologically accurate PD-2 sharing between triads  
 ✅ **Complete Dimensional Coverage**: All three dimensions represented appropriately  
-✅ **Flow Patterns**: [2-7], [5-4], [8-9] dimensional flows correctly mapped  
+✅ **Flow Patterns**: [2-7], [5-4], [8-1] dimensional flows correctly mapped  
 ✅ **Neurological Mapping**: Accurate translation from brain regions to dimensional services

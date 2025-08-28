@@ -92,7 +92,7 @@ describe('Triadic Polarity Structure and C-S-A [3-6-9] Framework', () => {
       expect(flows.commitmentFlow.pattern).toBe('[5-4] Production → Organization');
       expect(flows.commitmentFlow.services).toEqual(['P-5', 'O-4']);
       
-      expect(flows.performanceFlow.pattern).toBe('[8-9] Sales → Market');
+      expect(flows.performanceFlow.pattern).toBe('[8-1] Sales → Market');
       expect(flows.performanceFlow.services).toEqual(['S-8', 'M-1']);
     });
 
@@ -198,7 +198,7 @@ describe('Triadic Polarity Structure and C-S-A [3-6-9] Framework', () => {
       expect(validation.dimensionalFlows).toEqual([
         '[2-7] Development→Treasury',
         '[5-4] Production→Organization', 
-        '[8-9] Sales→Market'
+        '[8-1] Sales→Market'
       ]);
     });
   });
@@ -246,7 +246,7 @@ describe('Triadic Polarity Structure and C-S-A [3-6-9] Framework', () => {
       const performanceServices = allServices.filter(s => s.dimension.primary === 'performance');
       
       performanceServices.forEach(service => {
-        expect(service.dimension.flow).toBe('[8-9]');
+        expect(service.dimension.flow).toBe('[8-1]');
         expect(['sales', 'market']).toContain(service.dimension.position);
         expect(['maintenance', 'reactive']).toContain(service.dimension.characteristics.processingMode);
       });
@@ -310,7 +310,7 @@ describe('Triadic Polarity Structure and C-S-A [3-6-9] Framework', () => {
       expect(validation.dimensionalFlows).toHaveLength(3);
       expect(validation.dimensionalFlows).toContain('[2-7] Development→Treasury');
       expect(validation.dimensionalFlows).toContain('[5-4] Production→Organization');
-      expect(validation.dimensionalFlows).toContain('[8-9] Sales→Market');
+      expect(validation.dimensionalFlows).toContain('[8-1] Sales→Market');
     });
   });
 });

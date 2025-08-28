@@ -3,7 +3,7 @@
 
 export interface DimensionalMetadata {
   primary: 'potential' | 'commitment' | 'performance';
-  flow: '[2-7]' | '[5-4]' | '[8-9]';
+  flow: '[2-7]' | '[5-4]' | '[8-1]';
   position: 'development' | 'treasury' | 'production' | 'organization' | 'sales' | 'market';
   shared: boolean;
   characteristics: DimensionalCharacteristics;
@@ -180,7 +180,7 @@ export const somaticTriadDimensions: ServiceDimensionalConfig[] = [
     triadLevel: '[6]',
     dimension: {
       primary: 'performance',
-      flow: '[8-9]',
+      flow: '[8-1]',
       position: 'sales',
       shared: false,
       characteristics: {
@@ -258,7 +258,7 @@ export const autonomicTriadDimensions: ServiceDimensionalConfig[] = [
     triadLevel: '[9]',
     dimension: {
       primary: 'performance',
-      flow: '[8-9]',
+      flow: '[8-1]',
       position: 'market',
       shared: false,
       characteristics: {
@@ -285,7 +285,7 @@ export const autonomicTriadDimensions: ServiceDimensionalConfig[] = [
     triadLevel: '[9]',
     dimension: {
       primary: 'performance',
-      flow: '[8-9]',
+      flow: '[8-1]',
       position: 'sales',
       shared: false,
       characteristics: {

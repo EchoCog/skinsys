@@ -5,9 +5,93 @@
 Based on the diagram you shared, I can suggest how to structure this neurological-inspired architecture as a software system in GitHub.
 This approach would translate the biological/organizational metaphor into a practical implementation.
 
+### System Overview
+
+```mermaid
+graph TB
+    subgraph "Neurological Inspiration"
+        Brain[🧠 Human Cognitive Architecture<br/>System-5-CNS-ORG.png]
+    end
+    
+    subgraph "GitHub Implementation"
+        subgraph "Cerebral Triad (Yellow) - Executive Functions"
+            direction TB
+            CT[🧠 Neocortex Processing]
+            T7[💡 T-7: Thought Service<br/>Right Hemisphere - Intuitive Ideas]
+            PD2[🎯 PD-2: Processing Director<br/>Central Coordination]
+            P5C[⚡ P-5: Processing Service<br/>Analytical Processing]
+            O4C[📤 O-4: Output Service<br/>Left Hemisphere - Applied Output]
+        end
+        
+        subgraph "Somatic Triad (Light Blue) - Behavioral Control"
+            direction TB
+            ST[🤖 Basal System Processing]
+            M1S[🕹️ M-1: Motor Control<br/>Action Coordination]
+            S8S[👁️ S-8: Sensory Service<br/>Environmental Input]
+            P5S[🧠 P-5: Processing Service<br/>Behavioral Techniques]
+            O4S[📡 O-4: Output Service<br/>Response Delivery]
+        end
+        
+        subgraph "Autonomic Triad (Turquoise) - Background Systems"
+            direction TB
+            AT[⚙️ Autonomic Processing]
+            M1A[📊 M-1: Monitoring<br/>System Health]
+            S8A[💾 S-8: State Management<br/>Limbic System State]
+            PD2A[🔧 PD-2: Process Director<br/>Background Orchestration]
+            P5A[❤️ P-5: Processing Service<br/>Emotive Processing]
+            T7A[⚡ T-7: Trigger Service<br/>Autonomic Responses]
+        end
+        
+        subgraph "Integration Layer"
+            Gateway[🌐 API Gateway<br/>Central Nervous System]
+            EventBus[📡 Event Bus<br/>Neural Pathways]
+            SharedLib[📚 Cognitive Core<br/>Shared Libraries]
+        end
+    end
+    
+    Brain --> Gateway
+    Gateway --> CT
+    Gateway --> ST  
+    Gateway --> AT
+    
+    CT <--> ST
+    ST <--> AT
+    AT <--> CT
+    
+    T7 <--> PD2
+    PD2 <--> P5C
+    P5C <--> O4C
+    
+    S8S <--> M1S
+    M1S <--> P5S
+    P5S <--> O4S
+    
+    M1A <--> PD2A
+    S8A <--> PD2A
+    PD2A <--> P5A
+    P5A <--> T7A
+    
+    EventBus <--> T7
+    EventBus <--> M1S
+    EventBus <--> M1A
+    
+    SharedLib --> T7
+    SharedLib --> M1S
+    SharedLib --> M1A
+    
+    style CT fill:#fff2cc,stroke:#333,stroke-width:2px
+    style ST fill:#cce5ff,stroke:#333,stroke-width:2px
+    style AT fill:#ccffcc,stroke:#333,stroke-width:2px
+    style Brain fill:#ffe6e6,stroke:#333,stroke-width:3px
+```
+
 ## Architectural Approach
 
-We can implement this as a distributed system with three main components (triads) that mirror the neurological structure in your diagram:
+We can implement this as a distributed system with three main components (triads) that mirror the neurological structure in the provided diagram:
+
+![Neurological Architecture Diagram](System-5-CNS-ORG.png)
+
+This implementation translates the biological cognitive architecture into a distributed microservices system where each brain region corresponds to specific GitHub repositories and services.
 
 ## Repository Structure
 
@@ -23,28 +107,155 @@ Create a GitHub organization called "CognitiveCities" with the following reposit
 • integration-hub: API gateways and communication protocols
 • deployment-configs: Infrastructure as code and deployment scripts
 
+## GitHub Implementation Architecture
+
+```mermaid
+graph TD
+    subgraph "Neurological Architecture (System-5-CNS-ORG.png)"
+        Neo[Neocortex - Executive Functions]
+        RH[Right Hemisphere - Intuitive Ideas]
+        LH[Left Hemisphere - Applied Techniques]
+        BS[Basal System - Somatic Balance]
+        LS[Limbic System - Emotive Balance]
+        CT[Cerebral Triad - Yellow]
+        ST[Somatic Triad - Light Blue]
+        AT[Autonomic Triad - Turquoise]
+    end
+    
+    subgraph "GitHub Repository Structure"
+        subgraph "cerebral-triad/"
+            T7[thought-service/ (T-7)]
+            PD2[processing-director/ (PD-2)]
+            P5C[processing-service/ (P-5)]
+            O4C[output-service/ (O-4)]
+        end
+        
+        subgraph "somatic-triad/"
+            M1S[motor-control-service/ (M-1)]
+            S8S[sensory-service/ (S-8)]
+            P5S[processing-service/ (P-5)]
+            O4S[output-service/ (O-4)]
+        end
+        
+        subgraph "autonomic-triad/"
+            M1A[monitoring-service/ (M-1)]
+            S8A[state-management-service/ (S-8)]
+            PD2A[process-director/ (PD-2)]
+            P5A[processing-service/ (P-5)]
+            T7A[trigger-service/ (T-7)]
+        end
+        
+        subgraph "cognitive-core/"
+            SL[shared-libraries/]
+            Utils[utilities/]
+        end
+        
+        subgraph "integration-hub/"
+            API[api-gateway/]
+            EventBus[event-bus/]
+        end
+    end
+    
+    %% Mapping connections
+    Neo --> CT
+    RH --> T7
+    LH --> O4C
+    CT --> cerebral-triad/
+    ST --> somatic-triad/
+    AT --> autonomic-triad/
+    BS --> M1S
+    LS --> P5A
+```
+
 ## Component Mapping
 
 Map the diagram components to specific microservices:
 
-### Cerebral Triad (Yellow):
-• T (7) - Thought Service: Generates intuitive ideas and potential solutions
-• PD (2) - Processing Director: Coordinates processing of information
-• P (5) - Processing Service: Executes analytical processing
-• O (4) - Output Service: Formats and delivers processed information
+### Cerebral Triad (Yellow) - Neocortex Executive Functions
+```mermaid
+graph LR
+    subgraph "Cerebral Triad - High-level Cognition"
+        T7[T-7<br/>Thought Service<br/>💡 Intuitive Ideas]
+        PD2[PD-2<br/>Processing Director<br/>🎯 Coordination]
+        P5[P-5<br/>Processing Service<br/>⚡ Analysis]
+        O4[O-4<br/>Output Service<br/>📤 Results]
+    end
+    
+    T7 --> PD2
+    PD2 --> P5
+    PD2 --> O4
+    P5 --> O4
+    
+    style T7 fill:#ff9999
+    style PD2 fill:#ff6666
+    style P5 fill:#6699ff
+    style O4 fill:#66ccff
+```
 
-### Somatic Triad (Light Blue):
-• M (1) - Motor Control Service: Coordinates actions and behaviors
-• S (8) - Sensory Service: Collects and processes external inputs
-• P (5) - Processing Service: Handles behavioral technique implementation
-• O (4) - Output Service: Delivers behavioral responses
+**Neurological Mapping:**
+- **T (7)** - Thought Service: Maps to Right Hemisphere intuitive idea generation
+- **PD (2)** - Processing Director: Central coordination like the Processing Director in neocortex
+- **P (5)** - Processing Service: Analytical processing similar to cerebral processing
+- **O (4)** - Output Service: Formatted output delivery like left hemisphere applied techniques
 
-### Autonomic Triad (Turquoise):
-• M (1) - Monitoring Service: Automatic system monitoring
-• S (8) - State Management Service: Maintains system state
-• PD (2) - Process Director: Manages background processes
-• P (5) - Processing Service: Handles emotive and intuitive processing
-• T (7) - Trigger Service: Initiates automatic responses
+### Somatic Triad (Light Blue) - Voluntary Motor & Sensory Systems
+```mermaid
+graph LR
+    subgraph "Somatic Triad - Behavioral Control"
+        M1[M-1<br/>Motor Control<br/>🤖 Actions]
+        S8[S-8<br/>Sensory Service<br/>👁️ Input]
+        P5S[P-5<br/>Processing Service<br/>🧠 Behavior]
+        O4S[O-4<br/>Output Service<br/>📡 Response]
+    end
+    
+    S8 --> M1
+    M1 --> P5S
+    S8 --> P5S
+    P5S --> O4S
+    M1 --> O4S
+    
+    style M1 fill:#99ff99
+    style S8 fill:#99ff99
+    style P5S fill:#6699ff
+    style O4S fill:#66ccff
+```
+
+**Neurological Mapping:**
+- **M (1)** - Motor Control Service: Maps to Basal System somatic balance and motor control
+- **S (8)** - Sensory Service: Environmental sensing and input processing
+- **P (5)** - Processing Service: Behavioral technique implementation 
+- **O (4)** - Output Service: Behavioral response delivery
+
+### Autonomic Triad (Turquoise) - Automatic Background Processes
+```mermaid
+graph LR
+    subgraph "Autonomic Triad - Background Systems"
+        M1A[M-1<br/>Monitoring<br/>📊 Health]
+        S8A[S-8<br/>State Management<br/>💾 State]
+        PD2A[PD-2<br/>Process Director<br/>⚙️ Orchestration]
+        P5A[P-5<br/>Processing Service<br/>❤️ Emotive]
+        T7A[T-7<br/>Trigger Service<br/>⚡ Responses]
+    end
+    
+    M1A --> PD2A
+    S8A --> PD2A
+    PD2A --> P5A
+    PD2A --> T7A
+    P5A --> T7A
+    
+    style M1A fill:#66ffcc
+    style S8A fill:#66ffcc
+    style PD2A fill:#ff6666
+    style P5A fill:#6699ff
+    style T7A fill:#ff9999
+```
+
+**Neurological Mapping:**
+- **M (1)** - Monitoring Service: Continuous system health monitoring like autonomic nervous system
+- **S (8)** - State Management Service: Maintains system state like limbic system state management
+- **PD (2)** - Process Director: Background process orchestration
+- **P (5)** - Processing Service: Maps to Limbic System emotive balance and intuitive processing
+- **T (7)** - Trigger Service: Automatic response triggering like parasympathetic responses
 
 ## Communication Patterns
 
@@ -52,6 +263,113 @@ Implement communication between components using:
 Event-driven architecture with message queues (e.g., Kafka, RabbitMQ)
 RESTful APIs for direct service-to-service communication
 WebSockets for real-time updates between triads
+
+### Inter-Triad Communication Flow
+```mermaid
+sequenceDiagram
+    participant User
+    participant Gateway as API Gateway
+    participant CT as Cerebral Triad
+    participant ST as Somatic Triad
+    participant AT as Autonomic Triad
+    
+    User->>Gateway: Request
+    Gateway->>CT: Route to Thought Service
+    CT->>CT: Generate Ideas (T-7)
+    CT->>CT: Coordinate Processing (PD-2)
+    CT->>CT: Analyze (P-5)
+    
+    CT->>ST: Send behavioral directive
+    ST->>ST: Process motor commands (M-1)
+    ST->>ST: Process sensory input (S-8)
+    ST->>ST: Execute behavior (P-5)
+    
+    ST->>AT: Report status
+    AT->>AT: Monitor health (M-1)
+    AT->>AT: Update state (S-8)
+    AT->>AT: Background processing (P-5)
+    
+    AT-->>CT: System feedback
+    ST->>Gateway: Response
+    Gateway->>User: Final response
+```
+
+### Service Integration Architecture
+```mermaid
+graph TB
+    subgraph "External Interface"
+        Users[👥 Users]
+        Systems[🔌 External Systems]
+    end
+    
+    subgraph "Integration Layer"
+        Gateway[🌐 API Gateway<br/>Port 3000]
+        EventBus[📡 Event Bus<br/>Message Queue]
+    end
+    
+    subgraph "Cerebral Triad - Executive Functions"
+        T7[💡 Thought Service<br/>Port 3001]
+        PD2[🎯 Processing Director<br/>Port 3002]
+        P5C[⚡ Processing Service<br/>Port 3003]
+        O4C[📤 Output Service<br/>Port 3004]
+    end
+    
+    subgraph "Somatic Triad - Behavioral Control"
+        M1S[🤖 Motor Control<br/>Port 3011]
+        S8S[👁️ Sensory Service<br/>Port 3012]
+        P5S[🧠 Processing Service<br/>Port 3013]
+        O4S[📡 Output Service<br/>Port 3014]
+    end
+    
+    subgraph "Autonomic Triad - Background Systems"
+        M1A[📊 Monitoring<br/>Port 3021]
+        S8A[💾 State Management<br/>Port 3022]
+        PD2A[⚙️ Process Director<br/>Port 3023]
+        P5A[❤️ Processing Service<br/>Port 3024]
+        T7A[⚡ Trigger Service<br/>Port 3025]
+    end
+    
+    subgraph "Core Infrastructure"
+        SharedLib[📚 Shared Libraries]
+        Config[⚙️ Configuration]
+        Monitor[📈 Monitoring Stack]
+    end
+    
+    Users --> Gateway
+    Systems --> Gateway
+    Gateway --> T7
+    Gateway --> M1S
+    Gateway --> M1A
+    
+    T7 <--> PD2
+    PD2 <--> P5C
+    P5C <--> O4C
+    
+    S8S <--> M1S
+    M1S <--> P5S
+    P5S <--> O4S
+    
+    M1A <--> PD2A
+    S8A <--> PD2A
+    PD2A <--> P5A
+    P5A <--> T7A
+    
+    %% Cross-triad communication
+    O4C -.-> M1S
+    O4S -.-> M1A
+    T7A -.-> T7
+    
+    %% Event bus connections
+    EventBus <--> T7
+    EventBus <--> M1S
+    EventBus <--> M1A
+    
+    %% Infrastructure connections
+    SharedLib --> T7
+    SharedLib --> M1S
+    SharedLib --> M1A
+    Monitor --> M1A
+```
 
 ## GitHub Implementation
 GitHub Actions Workflows:
@@ -73,33 +391,109 @@ Documentation:
 
 For a modern cloud-native implementation:
 
-CognitiveCities/
-├── cerebral-triad/
-│ ├── thought-service/
-│ ├── processing-director/
-│ ├── processing-service/
-│ └── output-service/
-├── somatic-triad/
-│ ├── motor-control-service/
-│ ├── sensory-service/
-│ ├── processing-service/
-│ └── output-service/
-├── autonomic-triad/
-│ ├── monitoring-service/
-│ ├── state-management/
-│ ├── process-director/
-│ ├── processing-service/
-│ └── trigger-service/
-├── cognitive-core/
-│ ├── shared-libraries/
-│ └── utilities/
-├── integration-hub/
-│ ├── api-gateway/
-│ └── event-bus/
-└── deployment-configs/
-├── kubernetes/
-├── terraform/
-└── monitoring/
+### GitHub Repository Organization
+```
+CognitiveCities/cosmos-system-5/
+├── 🧠 cerebral-triad/              # Neocortex - Executive Functions
+│   ├── 💡 thought-service/         # Right Hemisphere - Intuitive Ideas (T-7)
+│   ├── 🎯 processing-director/     # Central Coordination (PD-2)
+│   ├── ⚡ processing-service/      # Analytical Processing (P-5)
+│   └── 📤 output-service/          # Left Hemisphere - Applied Output (O-4)
+├── 🤖 somatic-triad/               # Basal System - Motor Control
+│   ├── 🕹️ motor-control-service/   # Motor Functions (M-1)
+│   ├── 👁️ sensory-service/         # Sensory Input Processing (S-8)
+│   ├── 🧠 processing-service/      # Behavioral Techniques (P-5)
+│   └── 📡 output-service/          # Behavioral Responses (O-4)
+├── ⚙️ autonomic-triad/             # Autonomic Nervous System
+│   ├── 📊 monitoring-service/      # System Health Monitoring (M-1)
+│   ├── 💾 state-management/        # Limbic System State (S-8)
+│   ├── 🔧 process-director/        # Background Orchestration (PD-2)
+│   ├── ❤️ processing-service/      # Emotive Processing (P-5)
+│   └── ⚡ trigger-service/         # Autonomic Responses (T-7)
+├── 📚 cognitive-core/              # Shared Neural Infrastructure
+│   ├── 🔗 shared-libraries/        # Common neural pathways
+│   └── 🛠️ utilities/              # Support functions
+├── 🌐 integration-hub/             # Neural Network Integration
+│   ├── 🚪 api-gateway/             # Central nervous system gateway
+│   └── 📡 event-bus/               # Neural communication pathways
+└── 🚀 deployment-configs/          # Infrastructure DNA
+    ├── ☸️ kubernetes/              # Container orchestration
+    ├── 🏗️ terraform/               # Infrastructure as code
+    └── 📈 monitoring/              # System health monitoring
+```
+
+### Neurological to GitHub Mapping
+```mermaid
+graph LR
+    subgraph "Neurological Diagram"
+        subgraph "CT[Cerebral Triad - Yellow]"
+            T7N[T-7]
+            PD2N[PD-2] 
+            P5N[P-5]
+            O4N[O-4]
+        end
+        
+        subgraph "ST[Somatic Triad - Light Blue]"
+            M1NS[M-1]
+            S8N[S-8]
+            P5NS[P-5]
+            O4NS[O-4]
+        end
+        
+        subgraph "AT[Autonomic Triad - Turquoise]"
+            M1NA[M-1]
+            S8NA[S-8]
+            PD2NA[PD-2]
+            P5NA[P-5]
+            T7NA[T-7]
+        end
+    end
+    
+    subgraph "GitHub Implementation"
+        subgraph "cerebral-triad/"
+            T7G[thought-service/]
+            PD2G[processing-director/]
+            P5G[processing-service/]
+            O4G[output-service/]
+        end
+        
+        subgraph "somatic-triad/"
+            M1GS[motor-control-service/]
+            S8G[sensory-service/]
+            P5GS[processing-service/]
+            O4GS[output-service/]
+        end
+        
+        subgraph "autonomic-triad/"
+            M1GA[monitoring-service/]
+            S8GA[state-management-service/]
+            PD2GA[process-director/]
+            P5GA[processing-service/]
+            T7GA[trigger-service/]
+        end
+    end
+    
+    %% Direct mappings
+    T7N --> T7G
+    PD2N --> PD2G
+    P5N --> P5G
+    O4N --> O4G
+    
+    M1NS --> M1GS
+    S8N --> S8G
+    P5NS --> P5GS
+    O4NS --> O4GS
+    
+    M1NA --> M1GA
+    S8NA --> S8GA
+    PD2NA --> PD2GA
+    P5NA --> P5GA
+    T7NA --> T7GA
+    
+    style CT fill:#fff2cc
+    style ST fill:#cce5ff
+    style AT fill:#ccffcc
+```
 
 ## Implementation Status
 
@@ -363,10 +757,93 @@ kubectl get pods -n cognitive-cities
 ## Architecture Highlights
 
 ### 🧠 Neurological Inspiration
-The architecture mirrors human cognitive processes:
-- **Cerebral Triad**: Executive functions and strategic thinking
-- **Somatic Triad**: Voluntary actions and behavioral responses  
-- **Autonomic Triad**: Background processes and automatic responses
+
+The architecture mirrors human cognitive processes based on the neurological diagram (System-5-CNS-ORG.png):
+
+#### Brain Region Mapping
+```mermaid
+graph TB
+    subgraph "Neurological Architecture"
+        subgraph "Neocortex"
+            RH[Right Hemisphere<br/>Intuitive Ideas<br/>Potential]
+            LH[Left Hemisphere<br/>Applied Techniques<br/>Commitment]
+        end
+        
+        subgraph "Subcortical Systems"
+            BS[Basal System<br/>Somatic Balance<br/>Performance]
+            LS[Limbic System<br/>Emotive Balance<br/>Performance]
+        end
+        
+        subgraph "Neural Pathways"
+            SP[Sympathetic Polarity<br/>Emotive Technique]
+            PP[Parasympathetic Polarity<br/>Intuitive Feeling]
+            SoP[Somatic Polarity<br/>Behavior Technique]
+        end
+    end
+    
+    subgraph "Software Implementation"
+        subgraph "Cerebral Triad (Yellow)"
+            CT[Executive Functions<br/>Strategic Thinking<br/>High-level Decision Making]
+            T7_C[T-7: Thought Generation]
+            PD2_C[PD-2: Processing Coordination]
+            P5_C[P-5: Analytical Processing]
+            O4_C[O-4: Output Formatting]
+        end
+        
+        subgraph "Somatic Triad (Light Blue)"
+            ST[Voluntary Actions<br/>Behavioral Responses<br/>Motor Control]
+            M1_S[M-1: Motor Control]
+            S8_S[S-8: Sensory Input]
+            P5_S[P-5: Behavior Processing]
+            O4_S[O-4: Response Delivery]
+        end
+        
+        subgraph "Autonomic Triad (Turquoise)"
+            AT[Background Processes<br/>Automatic Responses<br/>System Maintenance]
+            M1_A[M-1: System Monitoring]
+            S8_A[S-8: State Management]
+            PD2_A[PD-2: Process Orchestration]
+            P5_A[P-5: Emotive Processing]
+            T7_A[T-7: Trigger Responses]
+        end
+    end
+    
+    %% Mapping relationships
+    RH --> T7_C
+    LH --> O4_C
+    BS --> M1_S
+    LS --> P5_A
+    SP --> P5_A
+    PP --> T7_A
+    SoP --> P5_S
+    
+    CT --> Cerebral
+    ST --> Somatic
+    AT --> Autonomic
+    
+    style RH fill:#ff9999
+    style LH fill:#66ccff
+    style BS fill:#99ff99
+    style LS fill:#66ffcc
+    style CT fill:#fff2cc
+    style ST fill:#cce5ff
+    style AT fill:#ccffcc
+```
+
+#### Neurological Service Correspondence
+
+| Brain Region | Neurological Function | Software Service | Implementation |
+|--------------|----------------------|------------------|----------------|
+| **Right Hemisphere** | Intuitive idea generation, pattern recognition | Thought Service (T-7) | Generates creative solutions and potential ideas |
+| **Left Hemisphere** | Applied techniques, logical output | Output Service (O-4) | Formats and structures responses logically |
+| **Processing Director** | Central coordination and control | Processing Director (PD-2) | Orchestrates information flow between services |
+| **Neocortex Processing** | Analytical thinking and reasoning | Processing Service (P-5) | Performs detailed analysis and reasoning |
+| **Basal System** | Motor control and somatic balance | Motor Control Service (M-1) | Coordinates system actions and behaviors |
+| **Sensory Systems** | Environmental input processing | Sensory Service (S-8) | Processes external inputs and environmental data |
+| **Limbic System** | Emotional processing and state | State Management (S-8) / Processing (P-5) | Manages system emotional state and context |
+| **Autonomic Nervous System** | Background monitoring and control | Monitoring Service (M-1) | Continuous health and performance monitoring |
+| **Sympathetic Response** | Active response and alertness | Trigger Service (T-7) | Initiates immediate responses to system events |
+| **Parasympathetic Response** | Rest and maintenance functions | Background processing | Handles system maintenance and optimization |
 
 ### 🔧 Modern Tech Stack
 - **Language**: TypeScript/Node.js for type safety and performance
@@ -401,6 +878,21 @@ http://localhost:3000/autonomic/trigger    → Trigger Service (T-7)
 4. **Advanced Features**: Machine learning integration, real-time analytics
 5. **Production Deployment**: Cloud infrastructure and scaling
 
+## Documentation
+
+### 📚 Comprehensive Guides
+- [📋 **Complete Architecture Documentation**](ARCHITECTURE.md) - Detailed neurological mapping and service specifications
+- [🔄 **GitHub Workflow Integration**](GITHUB_WORKFLOWS.md) - CI/CD and development workflow mapping to neural systems
+- [🧠 **Cerebral Triad Documentation**](cerebral-triad/README.md) - Executive functions and decision-making services
+- [🤖 **Somatic Triad Documentation**](somatic-triad/README.md) - Motor control and behavioral response services  
+- [⚙️ **Autonomic Triad Documentation**](autonomic-triad/README.md) - Background processing and monitoring services
+
+### 🎯 Quick References
+- [🌐 **API Gateway Endpoints**](#service-discovery) - Service routing and communication
+- [🚀 **Quick Start Guide**](#quick-start-guide) - Get the system running in minutes
+- [📊 **Implementation Status**](#implementation-status) - Current development progress
+- [🔧 **Technical Implementation**](#technical-implementation) - Repository structure and organization
+
 ## Contributing
 
 See individual triad README files for detailed service specifications:
@@ -408,4 +900,17 @@ See individual triad README files for detailed service specifications:
 - [Somatic Triad Documentation](somatic-triad/README.md)
 - [Autonomic Triad Documentation](autonomic-triad/README.md)
 
+For comprehensive neurological mapping and architectural details:
+- [📋 Complete Architecture Documentation](ARCHITECTURE.md)
+
 For issues and feature requests, use the appropriate triad-specific GitHub issue templates.
+
+## Architecture Reference
+
+The complete neurological architecture is documented in the reference diagram:
+
+![Neurological Architecture Reference](System-5-CNS-ORG.png)
+
+*Figure: Company & Nervous System Integration (Adapted from Science and Cosmic Order)*
+
+This diagram serves as the foundation for all service mappings and architectural decisions in the Cognitive Cities implementation.

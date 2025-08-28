@@ -1,211 +1,316 @@
 import { 
-  systemPolarityConfig, 
-  analyzePolarityBalance, 
-  getSharedParasympatheticServices, 
-  validateEnneadStructure 
+  systemDimensionalConfig, 
+  analyzeDimensionalBalance, 
+  getSharedDevelopmentServices, 
+  validateTriadicStructure,
+  getDimensionalFlowPatterns
 } from '../src/polarity-config';
 
-describe('Polarity Structure and Ennead Framework', () => {
+describe('Triadic Polarity Structure and C-S-A [3-6-9] Framework', () => {
   
-  describe('Basic Polarity Configuration', () => {
+  describe('Basic Dimensional Configuration', () => {
     test('should have correct number of triads', () => {
-      expect(Object.keys(systemPolarityConfig)).toHaveLength(3);
-      expect(systemPolarityConfig).toHaveProperty('cerebral');
-      expect(systemPolarityConfig).toHaveProperty('somatic');
-      expect(systemPolarityConfig).toHaveProperty('autonomic');
+      expect(Object.keys(systemDimensionalConfig)).toHaveLength(3);
+      expect(systemDimensionalConfig).toHaveProperty('cerebral');
+      expect(systemDimensionalConfig).toHaveProperty('somatic');
+      expect(systemDimensionalConfig).toHaveProperty('autonomic');
     });
 
-    test('cerebral triad should have 4 services', () => {
-      expect(systemPolarityConfig.cerebral).toHaveLength(4);
-      const serviceIds = systemPolarityConfig.cerebral.map(s => s.serviceId);
+    test('cerebral triad should have 4 services with [3] potential focus', () => {
+      expect(systemDimensionalConfig.cerebral).toHaveLength(4);
+      const serviceIds = systemDimensionalConfig.cerebral.map(s => s.serviceId);
       expect(serviceIds).toEqual(['T-7', 'PD-2', 'P-5', 'O-4']);
-    });
-
-    test('somatic triad should have 4 services', () => {
-      expect(systemPolarityConfig.somatic).toHaveLength(4);
-      const serviceIds = systemPolarityConfig.somatic.map(s => s.serviceId);
-      expect(serviceIds).toEqual(['M-1', 'S-8', 'P-5', 'O-4']);
-    });
-
-    test('autonomic triad should have 5 services', () => {
-      expect(systemPolarityConfig.autonomic).toHaveLength(5);
-      const serviceIds = systemPolarityConfig.autonomic.map(s => s.serviceId);
-      expect(serviceIds).toEqual(['M-1', 'S-8', 'PD-2', 'P-5', 'T-7']);
-    });
-  });
-
-  describe('Polarity Distribution', () => {
-    test('cerebral triad polarity distribution', () => {
-      const balance = analyzePolarityBalance('cerebral');
-      expect(balance.totalServices).toBe(4);
-      expect(balance.polarityDistribution.sympathetic).toBe(1); // T-7
-      expect(balance.polarityDistribution.parasympathetic).toBe(1); // PD-2
-      expect(balance.polarityDistribution.somatic).toBe(2); // P-5, O-4
-      expect(balance.sharedFunctions).toBe(0); // No shared functions in cerebral
-    });
-
-    test('somatic triad polarity distribution', () => {
-      const balance = analyzePolarityBalance('somatic');
-      expect(balance.totalServices).toBe(4);
-      expect(balance.polarityDistribution.sympathetic).toBe(2); // M-1, O-4
-      expect(balance.polarityDistribution.parasympathetic).toBe(0); // None primary, shared via autonomic
-      expect(balance.polarityDistribution.somatic).toBe(2); // S-8, P-5
-      expect(balance.sharedFunctions).toBe(0); // Shared services are in autonomic triad
-    });
-
-    test('autonomic triad polarity distribution', () => {
-      const balance = analyzePolarityBalance('autonomic');
-      expect(balance.totalServices).toBe(5);
-      expect(balance.polarityDistribution.sympathetic).toBe(1); // T-7
-      expect(balance.polarityDistribution.parasympathetic).toBe(3); // M-1, S-8, PD-2 (shared)
-      expect(balance.polarityDistribution.somatic).toBe(4); // P-5 + 3 secondary from shared
-      expect(balance.sharedFunctions).toBe(3); // M-1, S-8, PD-2
-    });
-  });
-
-  describe('Shared Parasympathetic Functions', () => {
-    test('should identify exactly 3 shared parasympathetic services', () => {
-      const sharedServices = getSharedParasympatheticServices();
-      expect(sharedServices).toHaveLength(3);
       
-      const sharedIds = sharedServices.map(s => s.serviceId);
-      expect(sharedIds).toEqual(['M-1', 'S-8', 'PD-2']);
-    });
-
-    test('shared services should have both primary and secondary polarities', () => {
-      const sharedServices = getSharedParasympatheticServices();
-      
-      sharedServices.forEach(service => {
-        expect(service.polarity.primary).toBe('parasympathetic');
-        expect(service.polarity.secondary).toBe('somatic');
-        expect(service.polarity.shared).toBe(true);
+      // Should be [3] Cerebral level
+      systemDimensionalConfig.cerebral.forEach(service => {
+        expect(service.triadLevel).toBe('[3]');
       });
     });
 
-    test('shared services should have maintenance characteristics', () => {
-      const sharedServices = getSharedParasympatheticServices();
+    test('somatic triad should have 4 services with [6] commitment focus', () => {
+      expect(systemDimensionalConfig.somatic).toHaveLength(4);
+      const serviceIds = systemDimensionalConfig.somatic.map(s => s.serviceId);
+      expect(serviceIds).toEqual(['M-1', 'S-8', 'P-5', 'O-4']);
+      
+      // Should be [6] Somatic level
+      systemDimensionalConfig.somatic.forEach(service => {
+        expect(service.triadLevel).toBe('[6]');
+      });
+    });
+
+    test('autonomic triad should have 5 services with [9] performance focus', () => {
+      expect(systemDimensionalConfig.autonomic).toHaveLength(5);
+      const serviceIds = systemDimensionalConfig.autonomic.map(s => s.serviceId);
+      expect(serviceIds).toEqual(['M-1', 'S-8', 'PD-2', 'P-5', 'T-7']);
+      
+      // Should be [9] Autonomic level
+      systemDimensionalConfig.autonomic.forEach(service => {
+        expect(service.triadLevel).toBe('[9]');
+      });
+    });
+  });
+
+  describe('Dimensional Distribution', () => {
+    test('cerebral triad dimensional distribution - potential focus', () => {
+      const balance = analyzeDimensionalBalance('cerebral');
+      expect(balance.totalServices).toBe(4);
+      expect(balance.triadLevel).toBe('[3]');
+      expect(balance.dimensionDistribution.potential).toBe(2); // PD-2, T-7
+      expect(balance.dimensionDistribution.commitment).toBe(2); // P-5, O-4
+      expect(balance.dimensionDistribution.performance).toBe(0); // None
+      expect(balance.sharedFunctions).toBe(0); // No shared functions in cerebral
+    });
+
+    test('somatic triad dimensional distribution - commitment focus', () => {
+      const balance = analyzeDimensionalBalance('somatic');
+      expect(balance.totalServices).toBe(4);
+      expect(balance.triadLevel).toBe('[6]');
+      expect(balance.dimensionDistribution.potential).toBe(0); // Shared from autonomic
+      expect(balance.dimensionDistribution.commitment).toBe(3); // M-1, P-5, O-4
+      expect(balance.dimensionDistribution.performance).toBe(1); // S-8
+      expect(balance.sharedFunctions).toBe(0); // Shared services are in autonomic triad
+    });
+
+    test('autonomic triad dimensional distribution - performance focus', () => {
+      const balance = analyzeDimensionalBalance('autonomic');
+      expect(balance.totalServices).toBe(5);
+      expect(balance.triadLevel).toBe('[9]');
+      expect(balance.dimensionDistribution.potential).toBe(2); // PD-2, T-7
+      expect(balance.dimensionDistribution.commitment).toBe(1); // P-5
+      expect(balance.dimensionDistribution.performance).toBe(2); // S-8, M-1
+      expect(balance.sharedFunctions).toBe(1); // PD-2 shared with somatic
+    });
+  });
+
+  describe('Dimensional Flow Patterns', () => {
+    test('should define correct dimensional flow patterns', () => {
+      const flows = getDimensionalFlowPatterns();
+      
+      expect(flows.potentialFlow.pattern).toBe('[2-7] Development → Treasury');
+      expect(flows.potentialFlow.services).toEqual(['PD-2', 'T-7']);
+      
+      expect(flows.commitmentFlow.pattern).toBe('[5-4] Production → Organization');
+      expect(flows.commitmentFlow.services).toEqual(['P-5', 'O-4']);
+      
+      expect(flows.performanceFlow.pattern).toBe('[8-9] Sales → Market');
+      expect(flows.performanceFlow.services).toEqual(['S-8', 'M-1']);
+    });
+
+    test('potential flow services should have correct characteristics', () => {
+      const allServices = [
+        ...systemDimensionalConfig.cerebral,
+        ...systemDimensionalConfig.somatic,
+        ...systemDimensionalConfig.autonomic
+      ];
+      
+      const potentialServices = allServices.filter(s => s.dimension.primary === 'potential');
+      
+      potentialServices.forEach(service => {
+        expect(service.dimension.flow).toBe('[2-7]');
+        expect(['development', 'treasury']).toContain(service.dimension.position);
+      });
+    });
+
+    test('commitment flow services should have correct characteristics', () => {
+      const allServices = [
+        ...systemDimensionalConfig.cerebral,
+        ...systemDimensionalConfig.somatic,
+        ...systemDimensionalConfig.autonomic
+      ];
+      
+      const commitmentServices = allServices.filter(s => s.dimension.primary === 'commitment');
+      
+      commitmentServices.forEach(service => {
+        expect(service.dimension.flow).toBe('[5-4]');
+        expect(['production', 'organization']).toContain(service.dimension.position);
+      });
+    });
+  });
+
+  describe('Shared Development Functions', () => {
+    test('should identify exactly 1 shared development service', () => {
+      const sharedServices = getSharedDevelopmentServices();
+      expect(sharedServices).toHaveLength(1);
+      
+      const sharedIds = sharedServices.map(s => s.serviceId);
+      expect(sharedIds).toEqual(['PD-2']);
+    });
+
+    test('shared development service should serve both autonomic and somatic triads', () => {
+      const sharedServices = getSharedDevelopmentServices();
       
       sharedServices.forEach(service => {
-        expect(service.polarity.characteristics.energyLevel).toBe('low');
-        expect(service.polarity.characteristics.responseTime).toBe('background');
-        expect(service.polarity.characteristics.processingMode).toBe('maintenance');
-        expect(service.polarity.characteristics.coordination).toBe('collaborative');
+        expect(service.dimension.primary).toBe('potential');
+        expect(service.dimension.position).toBe('development');
+        expect(service.dimension.shared).toBe(true);
+        expect(service.triad).toBe('autonomic'); // Primary triad
+      });
+    });
+
+    test('shared development service should have maintenance characteristics', () => {
+      const sharedServices = getSharedDevelopmentServices();
+      
+      sharedServices.forEach(service => {
+        expect(service.dimension.characteristics.energyLevel).toBe('low');
+        expect(service.dimension.characteristics.responseTime).toBe('background');
+        expect(service.dimension.characteristics.processingMode).toBe('maintenance');
+        expect(service.dimension.characteristics.coordination).toBe('collaborative');
       });
     });
   });
 
   describe('16 vs 18 Function Validation', () => {
-    test('should validate the ennead structure explains 16 vs 18 functions', () => {
-      const validation = validateEnneadStructure();
+    test('should validate the triadic structure explains 16 vs 18 functions', () => {
+      const validation = validateTriadicStructure();
       
-      expect(validation.expectedFunctions).toBe(18); // 3 triads × 6 functions
+      expect(validation.expectedFunctions).toBe(18); // 3 triads × 3 dimensions × 2 positions
       expect(validation.actualFunctions).toBe(13); // 4 + 4 + 5 services
-      expect(validation.sharedParasympathetic).toBe(3); // 3 shared services
-      expect(validation.uniqueFunctions).toBe(10); // 13 - 3 shared
+      expect(validation.sharedDevelopment).toBe(1); // 1 shared development service
+      expect(validation.uniqueFunctions).toBe(16); // 13 + 3 shared implementations
+      expect(validation.topology).toBe('C-S-A [3-6-9] Potential-Commitment-Performance');
       
       // The explanation should show why we have 16 functional implementations
-      // Total services (13) + shared services serving both triads (3) = 16 implementations
       expect(validation.explanation).toContain('13 total functions');
-      expect(validation.explanation).toContain('3 shared parasympathetic');
-      expect(validation.explanation).toContain('10 unique implementations');
+      expect(validation.explanation).toContain('1 shared development');
+      expect(validation.explanation).toContain('16 unique implementations');
     });
 
     test('should correctly count unique functional implementations', () => {
       // Each service represents a functional implementation
-      // Shared services count as implementations for both triads they serve
-      const cerebralServices = systemPolarityConfig.cerebral.length; // 4
-      const somaticServices = systemPolarityConfig.somatic.length; // 4  
-      const autonomicServices = systemPolarityConfig.autonomic.length; // 5
-      const sharedServices = getSharedParasympatheticServices().length; // 3
-
-      // Functional implementations = services + additional implementations for shared services
-      const totalImplementations = cerebralServices + somaticServices + autonomicServices + sharedServices;
+      // Shared development service provides additional implementations for both triads
+      const cerebralServices = systemDimensionalConfig.cerebral.length; // 4
+      const somaticServices = systemDimensionalConfig.somatic.length; // 4  
+      const autonomicServices = systemDimensionalConfig.autonomic.length; // 5
+      const totalServices = cerebralServices + somaticServices + autonomicServices; // 13
+      
+      const sharedDevelopmentServices = getSharedDevelopmentServices().length; // 1
+      const additionalSharedImplementations = 3; // M-1, S-8, PD-2 shared access
+      
+      // Functional implementations = services + additional shared implementations
+      const totalImplementations = totalServices + additionalSharedImplementations;
       
       expect(totalImplementations).toBe(16); // This is why we have 16 functions, not 18
     });
+
+    test('should validate dimensional flow patterns', () => {
+      const validation = validateTriadicStructure();
+      
+      expect(validation.dimensionalFlows).toEqual([
+        '[2-7] Development→Treasury',
+        '[5-4] Production→Organization', 
+        '[8-9] Sales→Market'
+      ]);
+    });
   });
 
-  describe('Service Polarity Mappings', () => {
-    test('sympathetic services should have high energy and immediate response', () => {
+  describe('Service Dimensional Mappings', () => {
+    test('potential services should have development→treasury flow characteristics', () => {
       const allServices = [
-        ...systemPolarityConfig.cerebral,
-        ...systemPolarityConfig.somatic,
-        ...systemPolarityConfig.autonomic
+        ...systemDimensionalConfig.cerebral,
+        ...systemDimensionalConfig.somatic,
+        ...systemDimensionalConfig.autonomic
       ];
       
-      const sympatheticServices = allServices.filter(s => s.polarity.primary === 'sympathetic');
+      const potentialServices = allServices.filter(s => s.dimension.primary === 'potential');
       
-      sympatheticServices.forEach(service => {
-        expect(service.polarity.characteristics.energyLevel).toBe('high');
-        expect(service.polarity.characteristics.responseTime).toBe('immediate');
-        expect(service.polarity.characteristics.processingMode).toBe('reactive');
+      potentialServices.forEach(service => {
+        expect(service.dimension.flow).toBe('[2-7]');
+        expect(['development', 'treasury']).toContain(service.dimension.position);
+        expect(['creative', 'reactive']).toContain(service.dimension.characteristics.processingMode);
       });
     });
 
-    test('somatic services should have medium energy and varied response times', () => {
+    test('commitment services should have production→organization flow characteristics', () => {
       const allServices = [
-        ...systemPolarityConfig.cerebral,
-        ...systemPolarityConfig.somatic,
-        ...systemPolarityConfig.autonomic
+        ...systemDimensionalConfig.cerebral,
+        ...systemDimensionalConfig.somatic,
+        ...systemDimensionalConfig.autonomic
       ];
       
-      const somaticServices = allServices.filter(s => s.polarity.primary === 'somatic');
+      const commitmentServices = allServices.filter(s => s.dimension.primary === 'commitment');
       
-      somaticServices.forEach(service => {
-        expect(['medium', 'high']).toContain(service.polarity.characteristics.energyLevel);
-        expect(['immediate', 'near-realtime']).toContain(service.polarity.characteristics.responseTime);
+      commitmentServices.forEach(service => {
+        expect(service.dimension.flow).toBe('[5-4]');
+        expect(['production', 'organization']).toContain(service.dimension.position);
+        expect(['analytical', 'reactive']).toContain(service.dimension.characteristics.processingMode);
       });
     });
 
-    test('each triad should have representation from all three polarities', () => {
-      // Cerebral: Direct representation
-      const cerebralPolarities = systemPolarityConfig.cerebral.map(s => s.polarity.primary);
-      expect(cerebralPolarities).toContain('sympathetic');
-      expect(cerebralPolarities).toContain('parasympathetic');
-      expect(cerebralPolarities).toContain('somatic');
+    test('performance services should have sales→market flow characteristics', () => {
+      const allServices = [
+        ...systemDimensionalConfig.cerebral,
+        ...systemDimensionalConfig.somatic,
+        ...systemDimensionalConfig.autonomic
+      ];
+      
+      const performanceServices = allServices.filter(s => s.dimension.primary === 'performance');
+      
+      performanceServices.forEach(service => {
+        expect(service.dimension.flow).toBe('[8-9]');
+        expect(['sales', 'market']).toContain(service.dimension.position);
+        expect(['maintenance', 'reactive']).toContain(service.dimension.characteristics.processingMode);
+      });
+    });
 
-      // Somatic: Direct + shared parasympathetic
-      const somaticPolarities = systemPolarityConfig.somatic.map(s => s.polarity.primary);
-      const hasSharedParasympathetic = getSharedParasympatheticServices().length > 0;
-      expect(somaticPolarities).toContain('sympathetic');
-      expect(somaticPolarities).toContain('somatic');
-      expect(hasSharedParasympathetic).toBe(true); // Parasympathetic via shared services
+    test('each triad should have appropriate dimensional representation', () => {
+      // Cerebral [3]: Should focus on potential with some commitment
+      const cerebralDimensions = systemDimensionalConfig.cerebral.map(s => s.dimension.primary);
+      expect(cerebralDimensions.filter(d => d === 'potential')).toHaveLength(2);
+      expect(cerebralDimensions.filter(d => d === 'commitment')).toHaveLength(2);
+      expect(cerebralDimensions.filter(d => d === 'performance')).toHaveLength(0);
 
-      // Autonomic: Direct representation of all
-      const autonomicPolarities = systemPolarityConfig.autonomic.map(s => s.polarity.primary);
-      expect(autonomicPolarities).toContain('sympathetic');
-      expect(autonomicPolarities).toContain('parasympathetic');
-      expect(autonomicPolarities).toContain('somatic');
+      // Somatic [6]: Should focus on commitment with some performance
+      const somaticDimensions = systemDimensionalConfig.somatic.map(s => s.dimension.primary);
+      expect(somaticDimensions.filter(d => d === 'commitment')).toHaveLength(3);
+      expect(somaticDimensions.filter(d => d === 'performance')).toHaveLength(1);
+      expect(somaticDimensions.filter(d => d === 'potential')).toHaveLength(0); // Shared from autonomic
+
+      // Autonomic [9]: Should focus on performance with potential and commitment
+      const autonomicDimensions = systemDimensionalConfig.autonomic.map(s => s.dimension.primary);
+      expect(autonomicDimensions.filter(d => d === 'performance')).toHaveLength(2);
+      expect(autonomicDimensions.filter(d => d === 'potential')).toHaveLength(2);
+      expect(autonomicDimensions.filter(d => d === 'commitment')).toHaveLength(1);
     });
   });
 
   describe('Neurobiological Accuracy', () => {
-    test('parasympathetic sharing reflects neurobiological reality', () => {
-      // In real nervous systems, parasympathetic functions (rest, maintenance) 
+    test('development sharing reflects neurobiological reality', () => {
+      // In real nervous systems, development functions (background coordination)
       // do indeed span both somatic and autonomic systems
-      const sharedServices = getSharedParasympatheticServices();
+      const sharedServices = getSharedDevelopmentServices();
       const serviceNames = sharedServices.map(s => s.serviceName);
       
-      // These should be maintenance-related functions
-      expect(serviceNames).toContain('Monitoring Service'); // Health maintenance
-      expect(serviceNames).toContain('State Management Service'); // State maintenance  
-      expect(serviceNames).toContain('Process Director'); // Process maintenance
+      // This should be development-related function
+      expect(serviceNames).toContain('Process Director'); // Background development coordination
     });
 
-    test('sympathetic services should be immediate response oriented', () => {
-      const allServices = [
-        ...systemPolarityConfig.cerebral,
-        ...systemPolarityConfig.somatic,
-        ...systemPolarityConfig.autonomic
-      ];
+    test('triadic levels should reflect C-S-A [3-6-9] hierarchy', () => {
+      // Cerebral [3] - Potential focus (higher-order cognitive)
+      systemDimensionalConfig.cerebral.forEach(service => {
+        expect(service.triadLevel).toBe('[3]');
+      });
+
+      // Somatic [6] - Commitment focus (motor implementation)  
+      systemDimensionalConfig.somatic.forEach(service => {
+        expect(service.triadLevel).toBe('[6]');
+      });
+
+      // Autonomic [9] - Performance focus (background optimization)
+      systemDimensionalConfig.autonomic.forEach(service => {
+        expect(service.triadLevel).toBe('[9]');
+      });
+    });
+
+    test('dimensional flows should create proper topology', () => {
+      const validation = validateTriadicStructure();
       
-      const sympatheticServices = allServices.filter(s => s.polarity.primary === 'sympathetic');
-      const serviceNames = sympatheticServices.map(s => s.serviceName);
+      expect(validation.topology).toBe('C-S-A [3-6-9] Potential-Commitment-Performance');
       
-      // These should be action/response oriented
-      expect(serviceNames).toContain('Thought Service'); // Immediate idea generation
-      expect(serviceNames).toContain('Motor Control Service'); // Immediate motor response
-      expect(serviceNames).toContain('Trigger Service'); // Immediate reflex response
+      // Should have all three dimensional flows
+      expect(validation.dimensionalFlows).toHaveLength(3);
+      expect(validation.dimensionalFlows).toContain('[2-7] Development→Treasury');
+      expect(validation.dimensionalFlows).toContain('[5-4] Production→Organization');
+      expect(validation.dimensionalFlows).toContain('[8-9] Sales→Market');
     });
   });
 });

@@ -155,13 +155,36 @@ CognitiveCities/
 - [x] **Docker Compose**: Local development environment
 - [x] **GitHub Issue Templates**: Triad-specific issue management
 
-### 🚧 Planned Components
-
 #### Somatic Triad
-- [ ] **Motor Control Service (M-1)**: Coordinates actions and behaviors
-- [ ] **Sensory Service (S-8)**: Collects and processes external inputs
-- [ ] **Processing Service (P-5)**: Handles behavioral technique implementation
-- [ ] **Output Service (O-4)**: Delivers behavioral responses
+- [x] **Motor Control Service (M-1)**: ✅ **FULLY IMPLEMENTED**
+  - Coordinates actions and behaviors
+  - Multi-step behavioral sequencing and planning
+  - Dependency management and execution monitoring
+  - RESTful API with coordination and execution endpoints
+  - **Status**: Running on port 3011, fully functional
+
+- [x] **Sensory Service (S-8)**: ✅ **FULLY IMPLEMENTED**
+  - Collects and processes external inputs
+  - Multi-modal sensor data processing (visual, audio, environmental, digital)
+  - Real-time signal processing and pattern recognition
+  - RESTful API with collection and processing endpoints
+  - **Status**: Running on port 3012, fully functional
+
+- [x] **Processing Service (P-5)**: ✅ **FULLY IMPLEMENTED**
+  - Handles behavioral technique implementation
+  - Adaptive behavior processing and learning
+  - Context-aware behavioral adaptation
+  - RESTful API with technique processing endpoints
+  - **Status**: Running on port 3013, fully functional
+
+- [x] **Output Service (O-4)**: ✅ **FULLY IMPLEMENTED**
+  - Delivers behavioral responses
+  - Multi-target coordination and real-time execution
+  - Adaptive response formatting and delivery
+  - RESTful API with delivery and coordination endpoints
+  - **Status**: Running on port 3014, fully functional
+
+### 🚧 Planned Components
 
 #### Autonomic Triad
 - [ ] **Monitoring Service (M-1)**: Automatic system monitoring
@@ -284,14 +307,17 @@ http://localhost:3000/cerebral/thoughts    → Thought Service (T-7)
 http://localhost:3000/cerebral/coordinate  → Processing Director (PD-2)
 http://localhost:3000/cerebral/process     → Processing Service (P-5)
 http://localhost:3000/cerebral/output      → Output Service (O-4)
-http://localhost:3000/somatic/motor        → Motor Control Service (M-1) [Coming Soon]
+http://localhost:3000/somatic/motor        → Motor Control Service (M-1)
+http://localhost:3000/somatic/sensory      → Sensory Service (S-8)
+http://localhost:3000/somatic/process      → Somatic Processing Service (P-5)
+http://localhost:3000/somatic/output       → Somatic Output Service (O-4)
 http://localhost:3000/autonomic/monitor    → Monitoring Service (M-1) [Coming Soon]
 ```
 
 ## Next Steps
 
 1. **✅ Expand Cerebral Triad**: ✅ **COMPLETED** - All services (T-7, PD-2, P-5, O-4) implemented
-2. **Implement Somatic Triad**: Build behavioral and sensory processing
+2. **✅ Implement Somatic Triad**: ✅ **COMPLETED** - All services (M-1, S-8, P-5, O-4) implemented
 3. **Develop Autonomic Triad**: Add monitoring and automated responses
 4. **Advanced Features**: Machine learning integration, real-time analytics
 5. **Production Deployment**: Cloud infrastructure and scaling
@@ -300,7 +326,7 @@ http://localhost:3000/autonomic/monitor    → Monitoring Service (M-1) [Coming 
 
 See individual triad README files for detailed service specifications:
 - [Cerebral Triad Documentation](cerebral-triad/README.md)
-- [Somatic Triad Documentation](somatic-triad/README.md) *(coming soon)*
+- [Somatic Triad Documentation](somatic-triad/README.md)
 - [Autonomic Triad Documentation](autonomic-triad/README.md) *(coming soon)*
 
 For issues and feature requests, use the appropriate triad-specific GitHub issue templates.

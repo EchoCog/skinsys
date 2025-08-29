@@ -102,6 +102,63 @@ services:
     networks:
       - cognitive-network
 
+  # ML Core Services - Advanced Features
+  predictive-engine:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_PATH: cognitive-core/ml-core/predictive-engine
+    ports:
+      - "3025:3025"
+    environment:
+      - NODE_ENV=development
+      - PORT=3025
+    networks:
+      - cognitive-network
+
+  pattern-analyzer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_PATH: cognitive-core/ml-core/pattern-analyzer
+    ports:
+      - "3026:3026"
+    environment:
+      - NODE_ENV=development
+      - PORT=3026
+    networks:
+      - cognitive-network
+
+  adaptive-optimizer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_PATH: cognitive-core/ml-core/adaptive-optimizer
+    ports:
+      - "3027:3027"
+    environment:
+      - NODE_ENV=development
+      - PORT=3027
+    networks:
+      - cognitive-network
+
+  analytics-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        SERVICE_PATH: integration-hub/analytics-dashboard
+    ports:
+      - "3030:3030"
+    environment:
+      - NODE_ENV=development
+      - PORT=3030
+    networks:
+      - cognitive-network
+
 networks:
   cognitive-network:
     driver: bridge

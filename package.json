@@ -8,6 +8,7 @@
     "somatic-triad/*", 
     "autonomic-triad/*",
     "cognitive-core/*",
+    "cognitive-core/ml-core/*",
     "integration-hub/*"
   ],
   "scripts": {

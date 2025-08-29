@@ -1,0 +1,432 @@
+# Enhanced CI/CD Pipeline for Production Deployment
+# Cognitive Cities Architecture - Complete Build, Test, and Deploy Pipeline
+
+name: 'Cognitive Cities Production Pipeline'
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+env:
+  AWS_REGION: us-west-2
+  EKS_CLUSTER_NAME: cognitive-cities-prod
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com
+
+jobs:
+  # Code Quality and Security Checks
+  quality-checks:
+    name: 'Code Quality & Security'
+    runs-on: ubuntu-latest
+    outputs:
+      should-deploy: ${{ steps.check-changes.outputs.should-deploy }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Lint code
+      run: npm run lint
+
+    - name: Security audit
+      run: npm audit --audit-level=moderate
+
+    - name: Check for changes
+      id: check-changes
+      run: |
+        if [[ "${{ github.event_name }}" == "release" ]] || [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          echo "should-deploy=true" >> $GITHUB_OUTPUT
+        else
+          echo "should-deploy=false" >> $GITHUB_OUTPUT
+        fi
+
+    # Static Application Security Testing (SAST)
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/init@v3
+      with:
+        languages: typescript
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+
+  # Build and Test each Triad
+  build-test-cerebral:
+    name: 'Build & Test Cerebral Triad'
+    runs-on: ubuntu-latest
+    needs: quality-checks
+    strategy:
+      matrix:
+        service: [thought-service, processing-director, processing-service, output-service]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build shared libraries
+      run: |
+        cd cognitive-core/shared-libraries
+        npm ci && npm run build
+
+    - name: Build service
+      run: |
+        cd cerebral-triad/${{ matrix.service }}
+        npm ci && npm run build
+
+    - name: Run tests
+      run: |
+        cd cerebral-triad/${{ matrix.service }}
+        npm test
+
+    - name: Generate test coverage
+      run: |
+        cd cerebral-triad/${{ matrix.service }}
+        npm run test:coverage
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: cerebral-triad/${{ matrix.service }}/coverage/lcov.info
+        flags: cerebral-${{ matrix.service }}
+
+  build-test-somatic:
+    name: 'Build & Test Somatic Triad'
+    runs-on: ubuntu-latest
+    needs: quality-checks
+    strategy:
+      matrix:
+        service: [motor-control-service, sensory-service, processing-service, output-service]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build shared libraries
+      run: |
+        cd cognitive-core/shared-libraries
+        npm ci && npm run build
+
+    - name: Build service
+      run: |
+        cd somatic-triad/${{ matrix.service }}
+        npm ci && npm run build
+
+    - name: Run tests
+      run: |
+        cd somatic-triad/${{ matrix.service }}
+        npm test
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: somatic-triad/${{ matrix.service }}/coverage/lcov.info
+        flags: somatic-${{ matrix.service }}
+
+  build-test-autonomic:
+    name: 'Build & Test Autonomic Triad'
+    runs-on: ubuntu-latest
+    needs: quality-checks
+    strategy:
+      matrix:
+        service: [monitoring-service, state-management-service, process-director, processing-service, trigger-service]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build shared libraries
+      run: |
+        cd cognitive-core/shared-libraries
+        npm ci && npm run build
+
+    - name: Build service
+      run: |
+        cd autonomic-triad/${{ matrix.service }}
+        npm ci && npm run build
+
+    - name: Run tests
+      run: |
+        cd autonomic-triad/${{ matrix.service }}
+        npm test
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: autonomic-triad/${{ matrix.service }}/coverage/lcov.info
+        flags: autonomic-${{ matrix.service }}
+
+  # Integration Testing
+  integration-tests:
+    name: 'Integration Tests'
+    runs-on: ubuntu-latest
+    needs: [build-test-cerebral, build-test-somatic, build-test-autonomic]
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build all services
+      run: npm run build
+
+    - name: Start services for integration testing
+      run: |
+        npm run start:integration &
+        sleep 30
+
+    - name: Run integration tests
+      run: npm run test:integration
+
+    - name: Stop services
+      run: npm run stop:integration
+
+  # Container Image Building
+  build-images:
+    name: 'Build Container Images'
+    runs-on: ubuntu-latest
+    needs: [integration-tests]
+    if: needs.quality-checks.outputs.should-deploy == 'true'
+    strategy:
+      matrix:
+        include:
+          - service: thought-service
+            path: cerebral-triad/thought-service
+          - service: processing-director
+            path: cerebral-triad/processing-director
+          - service: api-gateway
+            path: integration-hub/api-gateway
+          - service: analytics-dashboard
+            path: integration-hub/analytics-dashboard
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v5
+      with:
+        images: ${{ env.ECR_REGISTRY }}/cosmos-${{ matrix.service }}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=sha,prefix=sha-
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v5
+      with:
+        context: ${{ matrix.path }}
+        file: ${{ matrix.path }}/Dockerfile
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  # Infrastructure Deployment
+  deploy-infrastructure:
+    name: 'Deploy Infrastructure'
+    runs-on: ubuntu-latest
+    needs: [build-images]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: "1.6.0"
+
+    - name: Terraform Init
+      run: |
+        cd deployment-configs/terraform
+        terraform init
+
+    - name: Terraform Plan
+      run: |
+        cd deployment-configs/terraform
+        terraform plan -out=tfplan
+
+    - name: Terraform Apply
+      run: |
+        cd deployment-configs/terraform
+        terraform apply -auto-approve tfplan
+
+  # Application Deployment
+  deploy-application:
+    name: 'Deploy to Production'
+    runs-on: ubuntu-latest
+    needs: [deploy-infrastructure]
+    environment: production
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v4
+      with:
+        version: 'v1.28.0'
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f deployment-configs/kubernetes/production-deployment.yaml
+        kubectl rollout status deployment/api-gateway -n cognitive-cities --timeout=600s
+        kubectl rollout status deployment/thought-service -n cognitive-cities --timeout=600s
+        kubectl rollout status deployment/processing-director -n cognitive-cities --timeout=600s
+
+    - name: Verify deployment
+      run: |
+        kubectl get pods -n cognitive-cities
+        kubectl get services -n cognitive-cities
+
+  # Post-deployment Testing
+  post-deployment-tests:
+    name: 'Post-deployment Verification'
+    runs-on: ubuntu-latest
+    needs: [deploy-application]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
+
+    - name: Run smoke tests
+      run: |
+        # Get Load Balancer URL
+        LB_URL=$(kubectl get service api-gateway -n cognitive-cities -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+        echo "Testing deployment at: http://$LB_URL"
+        
+        # Health check
+        curl -f "http://$LB_URL/health" || exit 1
+        
+        # API Gateway endpoints
+        curl -f "http://$LB_URL/api/status" || exit 1
+
+    - name: Notify deployment success
+      if: success()
+      run: |
+        echo "🚀 Cognitive Cities Architecture successfully deployed to production!"
+        echo "🧠 Cerebral Triad: Executive functions operational"
+        echo "🤖 Somatic Triad: Behavioral control systems active"
+        echo "⚙️ Autonomic Triad: Background processes running"
+        echo "🌐 Integration Hub: API Gateway and Analytics Dashboard live"
+
+  # Rollback capability
+  rollback:
+    name: 'Rollback Deployment'
+    runs-on: ubuntu-latest
+    if: failure()
+    needs: [deploy-application]
+    environment: production
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Update kubeconfig
+      run: |
+        aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER_NAME }}
+
+    - name: Rollback deployments
+      run: |
+        kubectl rollout undo deployment/api-gateway -n cognitive-cities
+        kubectl rollout undo deployment/thought-service -n cognitive-cities
+        kubectl rollout undo deployment/processing-director -n cognitive-cities
+        echo "⚠️ Deployment rolled back due to failure"

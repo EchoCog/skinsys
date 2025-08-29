@@ -1,7 +1,4 @@
-import express from 'express';
-import cors from 'cors';
-import helmet from 'helmet';
-import { BaseService } from '@cosmos/cognitive-core-shared-libraries';
+import { BaseService, ServiceConfig, ServiceMessage, createMessage } from '@cosmos/cognitive-core-shared-libraries';
 
 // ML libraries for predictive analytics
 const SLR = require('ml-regression').SLR; // Simple Linear Regression
@@ -57,31 +54,50 @@ class PredictiveEngine extends BaseService {
   private models: Map<string, any> = new Map();
   private historicalData: Map<string, PredictionData[]> = new Map();
 
-  constructor() {
-    super('Predictive Engine', 3025);
+  constructor(config: ServiceConfig) {
+    super(config);
   }
 
-  protected setupRoutes(): void {
-    // Predictive analytics endpoints
-    this.app.post('/predict/timeseries', this.predictTimeSeries.bind(this));
-    this.app.post('/predict/health', this.predictSystemHealth.bind(this));
-    this.app.post('/predict/performance', this.predictPerformance.bind(this));
-    this.app.post('/predict/anomalies', this.detectAnomalies.bind(this));
-    
-    // Model management endpoints
-    this.app.get('/models', this.listModels.bind(this));
-    this.app.post('/models/train', this.trainModel.bind(this));
-    this.app.delete('/models/:modelId', this.deleteModel.bind(this));
-    
-    // Data ingestion endpoints
-    this.app.post('/data/ingest', this.ingestData.bind(this));
-    this.app.get('/data/summary', this.getDataSummary.bind(this));
-  }
-
-  protected async initializeService(): Promise<void> {
-    console.log('🧠 Initializing Predictive Engine ML models...');
+  async initialize(): Promise<void> {
+    this.log('info', 'Initializing Predictive Engine ML models...');
     await this.initializeModels();
-    console.log('✅ Predictive Engine ready for ML inference');
+    this.log('info', 'Predictive Engine ready for ML inference');
+  }
+
+  async process(message: ServiceMessage): Promise<ServiceMessage | null> {
+    this.log('info', 'Processing prediction request', { messageId: message.id });
+
+    try {
+      switch (message.type) {
+        case 'PREDICT_TIMESERIES':
+          const timeseriesResult = this.performTimeSeriesPrediction(message.payload);
+          return createMessage('PREDICTION_RESULT', timeseriesResult, this.config.serviceName, message.source);
+          
+        case 'PREDICT_HEALTH':
+          const healthResult = this.performSystemHealthPrediction(message.payload);
+          return createMessage('HEALTH_PREDICTION_RESULT', healthResult, this.config.serviceName, message.source);
+          
+        case 'DETECT_ANOMALIES':
+          const anomalyResult = this.performAnomalyDetection(message.payload);
+          return createMessage('ANOMALY_DETECTION_RESULT', anomalyResult, this.config.serviceName, message.source);
+          
+        case 'INGEST_DATA':
+          this.ingestPredictionData(message.payload);
+          return createMessage('DATA_INGESTED', { success: true }, this.config.serviceName, message.source);
+          
+        default:
+          this.log('warn', 'Unknown message type', { type: message.type });
+          return null;
+      }
+    } catch (error) {
+      this.log('error', 'Error processing prediction request', { error: error instanceof Error ? error.message : error });
+      return createMessage('ERROR', { error: 'Prediction processing failed' }, this.config.serviceName, message.source);
+    }
+  }
+
+  async shutdown(): Promise<void> {
+    this.log('info', 'Shutting down Predictive Engine');
+    // Clean up resources if needed
   }
 
   private async initializeModels(): Promise<void> {
@@ -105,36 +121,7 @@ class PredictiveEngine extends BaseService {
     });
   }
 
-  private async predictTimeSeries(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const request: PredictionRequest = req.body;
-      
-      if (!request.data || request.data.length < 2) {
-        res.status(400).json({ error: 'Insufficient data for prediction' });
-        return;
-      }
 
-      const result = this.performTimeSeriesPrediction(request);
-      
-      res.json({
-        success: true,
-        prediction: result,
-        model_info: {
-          type: 'time_series_forecasting',
-          data_points: request.data.length,
-          horizon: request.predictionHorizon
-        },
-        timestamp: Date.now()
-      });
-      
-    } catch (error) {
-      console.error('Prediction error:', error);
-      res.status(500).json({ 
-        error: 'Prediction failed',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  }
 
   private performTimeSeriesPrediction(request: PredictionRequest): PredictionResult {
     const data = request.data.sort((a, b) => a.timestamp - b.timestamp);
@@ -156,14 +143,16 @@ class PredictiveEngine extends BaseService {
     const timeInterval = data.length > 1 ? 
       (data[data.length - 1].timestamp - data[data.length - 2].timestamp) : 60000;
     
+    // Calculate MSE once outside the loop
+    const residuals = values.map((v, idx) => v - regression.predict(idx));
+    const mse = stats.mean(residuals.map(r => r * r));
+    const standardError = Math.sqrt(mse);
+    
     for (let i = 1; i <= request.predictionHorizon; i++) {
       const futureIndex = data.length + i - 1;
       const predictedValue = regression.predict(futureIndex);
       
       // Calculate confidence intervals (simplified)
-      const residuals = values.map((v, idx) => v - regression.predict(idx));
-      const mse = stats.mean(residuals.map(r => r * r));
-      const standardError = Math.sqrt(mse);
       const confidenceInterval = 1.96 * standardError; // 95% confidence
       
       predictions.push({
@@ -200,33 +189,11 @@ class PredictiveEngine extends BaseService {
     };
   }
 
-  private async predictSystemHealth(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const { service_data, historical_metrics } = req.body;
-      
-      if (!service_data) {
-        res.status(400).json({ error: 'Service data required' });
-        return;
-      }
-
-      const healthPrediction = this.generateHealthPrediction(service_data, historical_metrics);
-      
-      res.json({
-        success: true,
-        health_prediction: healthPrediction,
-        timestamp: Date.now()
-      });
-      
-    } catch (error) {
-      console.error('Health prediction error:', error);
-      res.status(500).json({ 
-        error: 'Health prediction failed',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
+  private performSystemHealthPrediction(serviceData: any): SystemHealthPrediction {
+    return this.generateHealthPrediction(serviceData);
   }
 
-  private generateHealthPrediction(serviceData: any, historicalMetrics?: any[]): SystemHealthPrediction {
+  private generateHealthPrediction(serviceData: any): SystemHealthPrediction {
     // Simplified health scoring based on key metrics
     const cpuUsage = serviceData.cpu_usage || 0;
     const memoryUsage = serviceData.memory_usage || 0;
@@ -286,40 +253,6 @@ class PredictiveEngine extends BaseService {
     };
   }
 
-  private async predictPerformance(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const { metrics, prediction_period } = req.body;
-      
-      // Simplified performance prediction
-      const performancePrediction = {
-        predicted_metrics: {
-          avg_response_time: this.predictMetric(metrics.response_times),
-          throughput: this.predictMetric(metrics.throughput_data),
-          error_rate: this.predictMetric(metrics.error_rates)
-        },
-        optimization_suggestions: [
-          'Enable caching for frequently accessed data',
-          'Implement connection pooling',
-          'Add database indexing for slow queries'
-        ],
-        confidence: 0.75
-      };
-      
-      res.json({
-        success: true,
-        performance_prediction: performancePrediction,
-        timestamp: Date.now()
-      });
-      
-    } catch (error) {
-      console.error('Performance prediction error:', error);
-      res.status(500).json({ 
-        error: 'Performance prediction failed',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
-  }
-
   private predictMetric(data: number[]): number {
     if (!data || data.length === 0) return 0;
     
@@ -331,31 +264,9 @@ class PredictiveEngine extends BaseService {
     return Math.max(0, avg + trend);
   }
 
-  private async detectAnomalies(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const { data, sensitivity = 0.05 } = req.body;
-      
-      if (!Array.isArray(data)) {
-        res.status(400).json({ error: 'Data array required' });
-        return;
-      }
-
-      const anomalies = this.detectStatisticalAnomalies(data, sensitivity);
-      
-      res.json({
-        success: true,
-        anomalies_detected: anomalies,
-        total_anomalies: anomalies.length,
-        timestamp: Date.now()
-      });
-      
-    } catch (error) {
-      console.error('Anomaly detection error:', error);
-      res.status(500).json({ 
-        error: 'Anomaly detection failed',
-        details: error instanceof Error ? error.message : 'Unknown error'
-      });
-    }
+  private performAnomalyDetection(data: PredictionData[]): any[] {
+    const sensitivity = 0.05;
+    return this.detectStatisticalAnomalies(data, sensitivity);
   }
 
   private detectStatisticalAnomalies(data: PredictionData[], sensitivity: number): any[] {
@@ -374,116 +285,22 @@ class PredictiveEngine extends BaseService {
       }));
   }
 
-  private async listModels(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const modelList = Array.from(this.models.entries()).map(([id, model]) => ({
-        id,
-        type: model.type,
-        trained: model.trained,
-        accuracy: model.accuracy
-      }));
-      
-      res.json({
-        success: true,
-        models: modelList,
-        total_models: modelList.length
-      });
-      
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to list models' });
+  private ingestPredictionData(payload: { source: string; data: PredictionData[] }): void {
+    const { source, data } = payload;
+    
+    if (!this.historicalData.has(source)) {
+      this.historicalData.set(source, []);
     }
-  }
-
-  private async trainModel(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const { model_type, training_data } = req.body;
-      
-      // Simplified model training simulation
-      const modelId = `${model_type}_${Date.now()}`;
-      this.models.set(modelId, {
-        type: model_type,
-        trained: true,
-        accuracy: 0.8 + Math.random() * 0.15 // Simulated accuracy
-      });
-      
-      res.json({
-        success: true,
-        model_id: modelId,
-        training_completed: true,
-        accuracy: this.models.get(modelId)?.accuracy
-      });
-      
-    } catch (error) {
-      res.status(500).json({ error: 'Model training failed' });
-    }
-  }
-
-  private async deleteModel(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const { modelId } = req.params;
-      
-      if (this.models.has(modelId)) {
-        this.models.delete(modelId);
-        res.json({ success: true, message: 'Model deleted successfully' });
-      } else {
-        res.status(404).json({ error: 'Model not found' });
-      }
-      
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to delete model' });
-    }
-  }
-
-  private async ingestData(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const { source, data } = req.body;
-      
-      if (!this.historicalData.has(source)) {
-        this.historicalData.set(source, []);
-      }
-      
-      const sourceData = this.historicalData.get(source)!;
-      sourceData.push(...data);
-      
-      // Keep only last 1000 data points per source
-      if (sourceData.length > 1000) {
-        sourceData.splice(0, sourceData.length - 1000);
-      }
-      
-      res.json({
-        success: true,
-        ingested_records: data.length,
-        total_records: sourceData.length
-      });
-      
-    } catch (error) {
-      res.status(500).json({ error: 'Data ingestion failed' });
-    }
-  }
-
-  private async getDataSummary(req: express.Request, res: express.Response): Promise<void> {
-    try {
-      const summary = Array.from(this.historicalData.entries()).map(([source, data]) => ({
-        source,
-        record_count: data.length,
-        latest_timestamp: data.length > 0 ? Math.max(...data.map(d => d.timestamp)) : null,
-        avg_value: data.length > 0 ? stats.mean(data.map(d => d.value)) : null
-      }));
-      
-      res.json({
-        success: true,
-        data_sources: summary,
-        total_sources: summary.length
-      });
-      
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to get data summary' });
+    
+    const sourceData = this.historicalData.get(source)!;
+    sourceData.push(...data);
+    
+    // Keep only last 1000 data points per source
+    if (sourceData.length > 1000) {
+      sourceData.splice(0, sourceData.length - 1000);
     }
   }
 }
 
-// Create and start the service
-const predictiveEngine = new PredictiveEngine();
-predictiveEngine.start().catch(console.error);
-
+// Export for use by other services
 export { PredictiveEngine };

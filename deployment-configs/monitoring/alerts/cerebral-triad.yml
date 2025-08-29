@@ -1,0 +1,130 @@
+# Cerebral Triad Alert Rules
+# Executive functions monitoring and alerting
+
+groups:
+  - name: cerebral_triad_alerts
+    rules:
+      # Thought Service (T-7) Alerts
+      - alert: ThoughtServiceDown
+        expr: up{job="cerebral-triad", component="T-7"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          triad: cerebral
+          service: thought-service
+        annotations:
+          summary: "Thought Service is down"
+          description: "The Thought Service (T-7) in the Cerebral Triad has been down for more than 30 seconds. This affects idea generation and creative thinking capabilities."
+
+      - alert: ThoughtServiceHighLatency
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="cerebral-triad", component="T-7"}[5m])) > 2
+        for: 2m
+        labels:
+          severity: warning
+          triad: cerebral
+          service: thought-service
+        annotations:
+          summary: "Thought Service experiencing high latency"
+          description: "95th percentile latency for Thought Service is {{ $value }}s which exceeds the 2s threshold."
+
+      - alert: ThoughtServiceHighErrorRate
+        expr: rate(http_requests_total{job="cerebral-triad", component="T-7", status=~"5.."}[5m]) / rate(http_requests_total{job="cerebral-triad", component="T-7"}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          triad: cerebral
+          service: thought-service
+        annotations:
+          summary: "Thought Service error rate is high"
+          description: "Error rate for Thought Service is {{ $value | humanizePercentage }}, which is above the 5% threshold."
+
+      # Processing Director (PD-2) Alerts
+      - alert: ProcessingDirectorDown
+        expr: up{job="cerebral-triad", component="PD-2"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          triad: cerebral
+          service: processing-director
+        annotations:
+          summary: "Processing Director is down"
+          description: "The Processing Director (PD-2) in the Cerebral Triad has been down for more than 30 seconds. This affects coordination and decision-making capabilities."
+
+      - alert: ProcessingDirectorHighLoad
+        expr: rate(coordination_requests_total{job="cerebral-triad", component="PD-2"}[5m]) > 100
+        for: 2m
+        labels:
+          severity: warning
+          triad: cerebral
+          service: processing-director
+        annotations:
+          summary: "Processing Director experiencing high coordination load"
+          description: "Processing Director is handling {{ $value }} coordination requests per second, which may impact performance."
+
+      # Processing Service (P-5) Alerts
+      - alert: CerebralProcessingDown
+        expr: up{job="cerebral-triad", component="P-5"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          triad: cerebral
+          service: processing-service
+        annotations:
+          summary: "Cerebral Processing Service is down"
+          description: "The Processing Service (P-5) in the Cerebral Triad has been down for more than 30 seconds. This affects analytical processing capabilities."
+
+      - alert: CerebralProcessingMemoryUsage
+        expr: process_resident_memory_bytes{job="cerebral-triad", component="P-5"} / 1024 / 1024 > 512
+        for: 5m
+        labels:
+          severity: warning
+          triad: cerebral
+          service: processing-service
+        annotations:
+          summary: "Cerebral Processing Service high memory usage"
+          description: "Processing Service memory usage is {{ $value }}MB, which exceeds the 512MB threshold."
+
+      # Output Service (O-4) Alerts
+      - alert: CerebralOutputDown
+        expr: up{job="cerebral-triad", component="O-4"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          triad: cerebral
+          service: output-service
+        annotations:
+          summary: "Cerebral Output Service is down"
+          description: "The Output Service (O-4) in the Cerebral Triad has been down for more than 30 seconds. This affects response delivery capabilities."
+
+      - alert: CerebralOutputQueueBacklog
+        expr: output_queue_size{job="cerebral-triad", component="O-4"} > 100
+        for: 3m
+        labels:
+          severity: warning
+          triad: cerebral
+          service: output-service
+        annotations:
+          summary: "Cerebral Output Service queue backlog"
+          description: "Output queue has {{ $value }} pending items, indicating potential bottleneck in response delivery."
+
+      # Cross-triad coordination alerts
+      - alert: CerebralTriadCoordinationFailure
+        expr: rate(coordination_failures_total{triad="cerebral"}[5m]) > 0.1
+        for: 1m
+        labels:
+          severity: warning
+          triad: cerebral
+        annotations:
+          summary: "Cerebral Triad coordination failures detected"
+          description: "Cerebral Triad is experiencing coordination failures at a rate of {{ $value }} per second."
+
+      # Performance aggregation alerts
+      - alert: CerebralTriadOverallPerformanceDegradation
+        expr: avg(up{job="cerebral-triad"}) < 0.8
+        for: 5m
+        labels:
+          severity: critical
+          triad: cerebral
+        annotations:
+          summary: "Cerebral Triad overall performance degradation"
+          description: "Less than 80% of Cerebral Triad services are operational. Current availability: {{ $value | humanizePercentage }}"

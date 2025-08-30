@@ -1,7 +1,7 @@
 {
-  "name": "cosmos-system-5",
+  "name": "skinsys-multiscale",
   "version": "1.0.0",
-  "description": "Cognitive Cities Architecture - A neurological-inspired distributed system",
+  "description": "Multiscale Skin Model - A scientifically accurate distributed simulation system for skin physiology across molecular, cellular, tissue, and organ scales",
   "private": true,
   "workspaces": [
     "cerebral-triad/*",
@@ -9,7 +9,7 @@
     "autonomic-triad/*",
     "cognitive-core/*",
     "cognitive-core/ml-core/*",
-    "integration-hub/*"
+    "integration-hub/api-gateway"
   ],
   "scripts": {
     "install:all": "npm install && npm run install:workspaces",
@@ -39,13 +39,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/EchoCog/cosmos-system-5.git"
+    "url": "https://github.com/EchoCog/skinsys.git"
   },
   "keywords": [
-    "cognitive-cities",
-    "microservices",
+    "multiscale-modeling",
+    "skin-physiology",
+    "computational-biology",
+    "biomedical-simulation",
     "distributed-systems",
-    "neurological-architecture"
+    "scientific-computing"
   ],
   "author": "EchoCog",
   "license": "AGPL-3.0"

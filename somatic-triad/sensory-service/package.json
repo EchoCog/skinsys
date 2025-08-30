@@ -1,7 +1,7 @@
 {
-  "name": "@cosmos/sensory-service",
+  "name": "@skinsys/environmental-sensing-service",
   "version": "1.0.0",
-  "description": "Sensory Service - Collects and processes external inputs",
+  "description": "Environmental Sensing Service - Processes skin environmental stimuli and sensory responses",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",

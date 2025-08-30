@@ -6,3 +6,4 @@ export {
   createServiceId, 
   createMessage 
 } from './communication';
+export * from './skin-data-structures';

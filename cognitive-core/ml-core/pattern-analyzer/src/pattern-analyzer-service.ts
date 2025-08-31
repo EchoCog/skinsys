@@ -134,7 +134,7 @@ export class PatternAnalyzer extends BaseService {
   }
 
   private detectBehavioralPatterns(data: any[], analysisWindow: number): any[] {
-    const patterns = [];
+    const patterns: any[] = [];
     const now = Date.now();
     
     // Filter data within analysis window
@@ -187,7 +187,7 @@ export class PatternAnalyzer extends BaseService {
   }
 
   private detectInteractionPatterns(data: any[], timeWindow: number): any[] {
-    const patterns = [];
+    const patterns: any[] = [];
     
     // Group interactions by service pairs
     const servicePairInteractions = new Map<string, any[]>();
@@ -225,7 +225,7 @@ export class PatternAnalyzer extends BaseService {
   }
 
   private detectPerformancePatterns(data: any[]): any[] {
-    const patterns = [];
+    const patterns: any[] = [];
     
     // Group by metric type
     const metricGroups = new Map<string, any[]>();
@@ -278,7 +278,7 @@ export class PatternAnalyzer extends BaseService {
   }
 
   private detectUserBehaviorPatterns(data: any[]): any[] {
-    const patterns = [];
+    const patterns: any[] = [];
     
     // Group by user/source
     const userGroups = new Map<string, any[]>();

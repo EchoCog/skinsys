@@ -9,18 +9,30 @@ import {
   MLPrimitiveType, 
   DimensionalFlow,
   ModalityType,
-  ContextType 
+  ContextType,
+  AttentionValue
 } from './cognitive-primitives';
+import { 
+  ECANTensorSignature, 
+  ECANKernel,
+  ActivationNode 
+} from './ecan-kernel';
 
 // Re-export TensorFragment for use in other modules
 export { TensorFragment, TensorMetadata } from './cognitive-primitives';
 
 /**
- * Tensor Fragment Manager for cognitive state processing
+ * Tensor Fragment Manager for cognitive state processing with ECAN integration
  */
 export class TensorFragmentManager {
   private fragments: Map<string, TensorFragment> = new Map();
   private fragmentHistory: Map<string, TensorFragment[]> = new Map();
+  private ecanKernel?: ECANKernel;
+  private attentionAllocations: Map<string, AttentionValue> = new Map();
+
+  constructor(ecanKernel?: ECANKernel) {
+    this.ecanKernel = ecanKernel;
+  }
 
   /**
    * Create a new tensor fragment with the specified signature
@@ -476,11 +488,225 @@ export class TensorFragmentManager {
       if (now - fragment.metadata.creation_time > maxAge) {
         this.fragments.delete(id);
         this.fragmentHistory.delete(id);
+        this.attentionAllocations.delete(id);
         removed++;
       }
     }
     
     return removed;
+  }
+
+  /**
+   * Set ECAN kernel for attention-based processing
+   */
+  setECANKernel(ecanKernel: ECANKernel): void {
+    this.ecanKernel = ecanKernel;
+  }
+
+  /**
+   * Allocate attention to fragments using ECAN principles
+   */
+  allocateECANAttention(fragmentIds?: string[]): Map<string, AttentionValue> {
+    if (!this.ecanKernel) {
+      throw new Error('ECAN kernel not initialized. Call setECANKernel() first.');
+    }
+
+    const targetFragments = fragmentIds ? 
+      fragmentIds.map(id => this.fragments.get(id)).filter(f => f) as TensorFragment[] :
+      Array.from(this.fragments.values());
+
+    const allocations = new Map<string, AttentionValue>();
+
+    targetFragments.forEach(fragment => {
+      const signature = fragment.signature;
+      
+      // Calculate attention allocation based on ECAN principles
+      const baseAttention = this.calculateBaseAttention(signature);
+      const priorityMultiplier = this.calculatePriorityMultiplier(fragment);
+      
+      const allocation: AttentionValue = {
+        sti: Math.floor(baseAttention.sti * priorityMultiplier),
+        lti: Math.floor(baseAttention.lti * priorityMultiplier),
+        vlti: Math.floor(baseAttention.vlti * priorityMultiplier)
+      };
+
+      allocations.set(fragment.id, allocation);
+      this.attentionAllocations.set(fragment.id, allocation);
+    });
+
+    return allocations;
+  }
+
+  /**
+   * Create ECAN-enabled tensor fragment
+   */
+  createECANFragment(
+    signature: ECANTensorSignature,
+    data: Float32Array,
+    shape: number[],
+    sourcePrimitive: string = 'ecan_source',
+    dimensionalFlow?: DimensionalFlow
+  ): TensorFragment {
+    const fragment = this.createFragment(signature, data, shape, sourcePrimitive, dimensionalFlow);
+    
+    // Add to ECAN activation network if available
+    if (this.ecanKernel) {
+      const activationLevel = signature.attention * signature.priority * 100;
+      this.ecanKernel.addActivationNode(fragment.id, activationLevel);
+    }
+
+    return fragment;
+  }
+
+  /**
+   * Find fragments by ECAN criteria
+   */
+  findECANFragments(criteria: {
+    minTasks?: number;
+    minAttention?: number;
+    minPriority?: number;
+    minResources?: number;
+  }): TensorFragment[] {
+    return Array.from(this.fragments.values()).filter(fragment => {
+      const sig = fragment.signature as ECANTensorSignature;
+      
+      if (criteria.minTasks && (!sig.tasks || sig.tasks < criteria.minTasks)) return false;
+      if (criteria.minAttention && (!sig.attention || sig.attention < criteria.minAttention)) return false;
+      if (criteria.minPriority && (!sig.priority || sig.priority < criteria.minPriority)) return false;
+      if (criteria.minResources && (!sig.resources || sig.resources < criteria.minResources)) return false;
+      
+      return true;
+    });
+  }
+
+  /**
+   * Get attention allocation for a fragment
+   */
+  getFragmentAttention(fragmentId: string): AttentionValue | null {
+    return this.attentionAllocations.get(fragmentId) || null;
+  }
+
+  /**
+   * Process attention spreading between related fragments
+   */
+  spreadAttentionBetweenFragments(sourceId: string, targetIds: string[], spreadingRate: number = 0.1): void {
+    if (!this.ecanKernel) return;
+
+    const sourceFragment = this.fragments.get(sourceId);
+    if (!sourceFragment) return;
+
+    targetIds.forEach(targetId => {
+      const targetFragment = this.fragments.get(targetId);
+      if (targetFragment) {
+        // Calculate connection weight based on signature similarity
+        const weight = this.calculateSignatureSimilarity(
+          sourceFragment.signature,
+          targetFragment.signature
+        );
+        
+        if (this.ecanKernel) {
+          this.ecanKernel.connectActivationNodes(sourceId, targetId, weight, spreadingRate);
+        }
+      }
+    });
+  }
+
+  /**
+   * Get fragments sorted by attention priority
+   */
+  getFragmentsByAttentionPriority(): TensorFragment[] {
+    return Array.from(this.fragments.values()).sort((a, b) => {
+      const aAttention = this.attentionAllocations.get(a.id) || { sti: 0, lti: 0, vlti: 0 };
+      const bAttention = this.attentionAllocations.get(b.id) || { sti: 0, lti: 0, vlti: 0 };
+      
+      const aTotal = aAttention.sti + aAttention.lti + aAttention.vlti;
+      const bTotal = bAttention.sti + bAttention.lti + bAttention.vlti;
+      
+      return bTotal - aTotal; // Descending order
+    });
+  }
+
+  // Private ECAN helper methods
+
+  private calculateBaseAttention(signature: TensorSignature): AttentionValue {
+    const salienceMultiplier = signature.salience;
+    const depthMultiplier = signature.depth / 9;
+    const autonomyMultiplier = signature.autonomy_index;
+    
+    return {
+      sti: Math.floor(50 * salienceMultiplier * (1 + depthMultiplier)),
+      lti: Math.floor(25 * salienceMultiplier * autonomyMultiplier),
+      vlti: Math.floor(10 * autonomyMultiplier)
+    };
+  }
+
+  private calculatePriorityMultiplier(fragment: TensorFragment): number {
+    const signature = fragment.signature as ECANTensorSignature;
+    
+    // Base multiplier from priority if ECAN signature
+    let multiplier = signature.priority || 0.5;
+    
+    // Adjust based on modality importance
+    switch (signature.modality) {
+      case ModalityType.EXECUTIVE:
+        multiplier *= 1.5;
+        break;
+      case ModalityType.ATTENTION:
+        multiplier *= 1.3;
+        break;
+      case ModalityType.COGNITIVE:
+        multiplier *= 1.1;
+        break;
+      default:
+        multiplier *= 1.0;
+    }
+    
+    // Adjust based on context urgency
+    switch (signature.context) {
+      case ContextType.IMMEDIATE:
+        multiplier *= 1.4;
+        break;
+      case ContextType.WORKING:
+        multiplier *= 1.2;
+        break;
+      case ContextType.SHORT_TERM:
+        multiplier *= 1.1;
+        break;
+      default:
+        multiplier *= 1.0;
+    }
+    
+    return Math.min(2.0, Math.max(0.1, multiplier));
+  }
+
+  private calculateSignatureSimilarity(sig1: TensorSignature, sig2: TensorSignature): number {
+    let similarity = 0;
+    let factors = 0;
+    
+    // Modality similarity
+    if (sig1.modality === sig2.modality) similarity += 0.3;
+    factors++;
+    
+    // Context similarity  
+    if (sig1.context === sig2.context) similarity += 0.2;
+    factors++;
+    
+    // Depth similarity (normalized difference)
+    const depthSim = 1 - Math.abs(sig1.depth - sig2.depth) / 9;
+    similarity += depthSim * 0.2;
+    factors++;
+    
+    // Salience similarity
+    const salienceSim = 1 - Math.abs(sig1.salience - sig2.salience);
+    similarity += salienceSim * 0.2;
+    factors++;
+    
+    // Autonomy similarity
+    const autonomySim = 1 - Math.abs(sig1.autonomy_index - sig2.autonomy_index);
+    similarity += autonomySim * 0.1;
+    factors++;
+    
+    return similarity / factors;
   }
 }
 

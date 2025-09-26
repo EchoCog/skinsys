@@ -19,3 +19,7 @@ export * from './src/verification-visualization';
 // Phase 2: ECAN Attention Allocation & Resource Kernel Construction
 export * from './src/ecan-kernel';
 export * from './src/ecan-scheduler';
+
+// Phase 3: Neural-Symbolic Synthesis via Custom GGML Kernels
+export * from './src/ggml-neural-symbolic-kernel';
+export * from './src/ggml-tensor-benchmarking';

@@ -18,6 +18,7 @@
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "start:dev": "npm run start:dev --workspaces",
+    "demo:ggml": "npx ts-node demo-ggml-neural-symbolic.ts",
     "docker:build": "docker-compose build",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down"
